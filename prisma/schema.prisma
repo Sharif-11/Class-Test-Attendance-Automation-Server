@@ -4,9 +4,9 @@
 generator client {
   provider = "prisma-client-js"
 }
-generator erd {
-  provider = "prisma-erd-generator"
-}
+
+
+
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
@@ -17,19 +17,19 @@ enum Role {
   teacher
 }
 
-
 model Student {
-  studentId  String   @id
-  name       String
-  email      String
-  batch      String
-  session    String
-  department String
-  role       Role
-  password   String
-  createdAt  DateTime @default(now())
-  updatedAt  DateTime @updatedAt
-  Mark       Mark[]
+  studentId    String   @id
+  name         String
+  email        String
+  batch        String
+  session      String
+  department   String
+  role         Role
+  password     String
+  profileImage String
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+  Mark         Mark[]
 
   @@map("Students")
 }
@@ -38,10 +38,12 @@ model Teacher {
   teacherId        String             @id
   name             String
   email            String
+  department       String
   designation      String
   specialization   String?
   role             Role
   password         String
+  profileImage     String
   deptHead         Boolean            @default(false)
   createdAt        DateTime           @default(now())
   updatedAt        DateTime           @updatedAt
@@ -126,5 +128,4 @@ model Attendance {
   updatedAt   DateTime @updatedAt
 
   @@id([semesterId, courseCode])
-  
 }
