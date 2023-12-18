@@ -1,0 +1,130 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+generator erd {
+  provider = "prisma-erd-generator"
+}
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  student
+  teacher
+}
+
+
+model Student {
+  studentId  String   @id
+  name       String
+  email      String
+  batch      String
+  session    String
+  department String
+  role       Role
+  password   String
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+  Mark       Mark[]
+
+  @@map("Students")
+}
+
+model Teacher {
+  teacherId        String             @id
+  name             String
+  email            String
+  designation      String
+  specialization   String?
+  role             Role
+  password         String
+  deptHead         Boolean            @default(false)
+  createdAt        DateTime           @default(now())
+  updatedAt        DateTime           @updatedAt
+  Semester_Courses Semester_Courses[]
+
+  @@map("Teachers")
+}
+
+model Course {
+  courseCode  String @id
+  courseTitle String
+  credit      Float
+
+  Semester_Courses Semester_Courses[]
+  createdAt        DateTime           @default(now())
+  updatedAt        DateTime           @updatedAt
+  Class_Test       Class_Test[]
+  Attendance       Attendance[]
+
+  @@map("Courses")
+}
+
+model Semester {
+  semesterTitle    String
+  batch            String
+  semesterId       String             @id
+  Semester_Courses Semester_Courses[]
+  createdAt        DateTime           @default(now())
+  updatedAt        DateTime           @updatedAt
+  Class_Test       Class_Test[]
+  Attendance       Attendance[]
+
+  @@map("Semesters")
+}
+
+model Semester_Courses {
+  semesterId String
+  courseId   String
+  teacherId  String
+  semester   Semester @relation(fields: [semesterId], references: [semesterId])
+  course     Course   @relation(fields: [courseId], references: [courseCode])
+  teacher    Teacher  @relation(fields: [teacherId], references: [teacherId])
+
+  @@id([semesterId, courseId, teacherId])
+  @@map("Semester_courses")
+}
+
+model Class_Test {
+  semesterId  String
+  courseCode  String
+  classTestId String   @unique @default(uuid())
+  semester    Semester @relation(fields: [semesterId], references: [semesterId])
+  course      Course   @relation(fields: [courseCode], references: [courseCode])
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  Mark        Mark[]
+
+  @@id([semesterId, courseCode])
+  @@map("Class_tests")
+}
+
+model Mark {
+  classTestId String
+  studentId   String
+  classTest   Class_Test @relation(fields: [classTestId], references: [classTestId])
+  student     Student    @relation(fields: [studentId], references: [studentId])
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+
+  @@id([classTestId, studentId])
+  @@map("Marks")
+}
+
+model Attendance {
+  semesterId  String
+  courseCode  String
+  Date        DateTime @default(now())
+  studentList String[]
+  semester    Semester @relation(fields: [semesterId], references: [semesterId])
+  course      Course   @relation(fields: [courseCode], references: [courseCode])
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@id([semesterId, courseCode])
+  
+}
