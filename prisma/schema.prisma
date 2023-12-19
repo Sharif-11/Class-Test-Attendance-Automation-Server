@@ -5,8 +5,6 @@ generator client {
   provider = "prisma-client-js"
 }
 
-
-
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
@@ -20,7 +18,7 @@ enum Role {
 model Student {
   studentId    String   @id
   name         String
-  email        String
+  email        String   @unique
   batch        String
   session      String
   department   String
@@ -37,7 +35,7 @@ model Student {
 model Teacher {
   teacherId        String             @id
   name             String
-  email            String
+  email            String             @unique
   department       String
   designation      String
   specialization   String?
@@ -81,13 +79,13 @@ model Semester {
 
 model Semester_Courses {
   semesterId String
-  courseId   String
+  courseCode String
   teacherId  String
   semester   Semester @relation(fields: [semesterId], references: [semesterId])
-  course     Course   @relation(fields: [courseId], references: [courseCode])
+  course     Course   @relation(fields: [courseCode], references: [courseCode])
   teacher    Teacher  @relation(fields: [teacherId], references: [teacherId])
 
-  @@id([semesterId, courseId, teacherId])
+  @@id([semesterId, courseCode, teacherId])
   @@map("Semester_courses")
 }
 
@@ -95,6 +93,7 @@ model Class_Test {
   semesterId  String
   courseCode  String
   classTestId String   @unique @default(uuid())
+  full_mark   Int
   semester    Semester @relation(fields: [semesterId], references: [semesterId])
   course      Course   @relation(fields: [courseCode], references: [courseCode])
   createdAt   DateTime @default(now())
@@ -108,6 +107,7 @@ model Class_Test {
 model Mark {
   classTestId String
   studentId   String
+  marks       Float
   classTest   Class_Test @relation(fields: [classTestId], references: [classTestId])
   student     Student    @relation(fields: [studentId], references: [studentId])
   createdAt   DateTime   @default(now())
