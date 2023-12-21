@@ -1,6 +1,6 @@
 import { Semester } from '@prisma/client'
-import prisma from '../shared/prisma'
-import { semesterTitles } from '../shared/utils'
+import prisma from '../Shared/prisma'
+import { semesterTitles } from '../Shared/utils'
 import { courseServices } from './courses.services'
 import { userServices } from './user.services'
 import { createSemesterId } from './utils.services'

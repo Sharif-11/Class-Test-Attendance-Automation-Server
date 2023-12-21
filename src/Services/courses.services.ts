@@ -1,5 +1,5 @@
 import { Course } from '@prisma/client'
-import prisma from '../shared/prisma'
+import prisma from '../Shared/prisma'
 
 const createCourse = async (courseData: Course) => {
   const course = await prisma.course.create({ data: courseData })

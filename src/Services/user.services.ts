@@ -1,6 +1,8 @@
 import { Student, Teacher } from '@prisma/client'
-import prisma from '../shared/prisma'
-import { studentSelect, teacherSelect } from '../shared/utils'
+import httpStatus from 'http-status'
+import prisma from '../Shared/prisma'
+import { studentSelect, teacherSelect } from '../Shared/utils'
+import ApiError from '../errors/ApiError'
 
 const createStudent = async (studentData: Student) => {
   const student = await prisma.student.create({
@@ -26,7 +28,10 @@ const updateStudent = async (
     where: { studentId },
   })
   if (!existingStudent) {
-    throw new Error("Student with this id doesn't exist")
+    throw new ApiError(
+      httpStatus.BAD_REQUEST,
+      "Student with this id doesn't exist",
+    )
   }
   const updatedStudent = await prisma.student.update({
     where: {
@@ -47,7 +52,10 @@ const updateTeacher = async (
     where: { teacherId },
   })
   if (!existingTeacher) {
-    throw new Error("Teacher with this id doesn't exist")
+    throw new ApiError(
+      httpStatus.BAD_REQUEST,
+      "Teacher with this id doesn't exist",
+    )
   }
   const updatedTeacher = await prisma.teacher.update({
     where: {
@@ -76,7 +84,10 @@ const getSingleStudent = async (studentId: string) => {
     select: studentSelect,
   })
   if (!student) {
-    throw new Error('Student with this id does not exist')
+    throw new ApiError(
+      httpStatus.BAD_REQUEST,
+      'Student with this id does not exist',
+    )
   }
   return student
 }
@@ -86,7 +97,10 @@ const getSingleTeacher = async (teacherId: string) => {
     select: teacherSelect,
   })
   if (!teacher) {
-    throw new Error('Teacher with this id does not exist')
+    throw new ApiError(
+      httpStatus.BAD_REQUEST,
+      'Teacher with this id does not exist',
+    )
   }
   return teacher
 }
@@ -121,7 +135,10 @@ const deleteStudent = async (studentId: string) => {
     where: { studentId },
   })
   if (!existingStudent) {
-    throw new Error('Student with this id does not exist')
+    throw new ApiError(
+      httpStatus.BAD_REQUEST,
+      'Student with this id does not exist',
+    )
   }
   const deletedStudent = await prisma.student.delete({
     where: { studentId },
@@ -134,7 +151,10 @@ const deleteTeacher = async (teacherId: string) => {
     where: { teacherId },
   })
   if (!existingTeacher) {
-    throw new Error('Teacher with this id does not exist')
+    throw new ApiError(
+      httpStatus.BAD_REQUEST,
+      'Teacher with this id does not exist',
+    )
   }
   const deletedTeacher = await prisma.teacher.delete({
     where: { teacherId },
@@ -147,7 +167,10 @@ const isHead = async (teacherId: string) => {
     where: { teacherId },
   })
   if (!existingTeacher) {
-    throw new Error('Teacher with this id does not exist')
+    throw new ApiError(
+      httpStatus.BAD_REQUEST,
+      'Teacher with this id does not exist',
+    )
   }
   return existingTeacher.deptHead
 }
@@ -159,7 +182,10 @@ const makeHead = async (teacherId: string) => {
     where: { teacherId },
   })
   if (!existingTeacher) {
-    throw new Error('Teacher with this id does not exist')
+    throw new ApiError(
+      httpStatus.BAD_REQUEST,
+      'Teacher with this id does not exist',
+    )
   }
 
   const updatedHead = await prisma.$transaction(async tx => {
@@ -168,7 +194,7 @@ const makeHead = async (teacherId: string) => {
       data: { deptHead: false },
     })
     if (!nullifyHead) {
-      throw new Error('Head creation failed')
+      throw new ApiError(httpStatus.BAD_REQUEST, 'Head creation failed')
     }
     const updatedHead = await tx.teacher.update({
       where: { teacherId },

@@ -1,4 +1,4 @@
-import { semesterTitles } from '../shared/utils'
+import { semesterTitles } from '../Shared/utils'
 
 export const createSemesterId = (
   semesterTitle: keyof typeof semesterTitles,
