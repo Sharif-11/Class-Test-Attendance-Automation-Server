@@ -12,6 +12,16 @@ const createStudent = async (studentData: Student) => {
   return student
 }
 const createTeacher = async (teacherData: Teacher) => {
+  const { deptHead } = teacherData
+  if (deptHead === true) {
+    const existingHead = await prisma.teacher.findFirst({ where: { deptHead } })
+    if (existingHead) {
+      throw new ApiError(
+        httpStatus.BAD_REQUEST,
+        'There is a department Head already',
+      )
+    }
+  }
   const teacher = await prisma.teacher.create({
     data: teacherData,
     select: teacherSelect,
@@ -47,7 +57,7 @@ const updateTeacher = async (
   teacherData: Partial<Teacher>,
 ) => {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const { password, ...otherData } = teacherData
+  const { password, deptHead, ...otherData } = teacherData
   const existingTeacher = await prisma.teacher.findUnique({
     where: { teacherId },
   })

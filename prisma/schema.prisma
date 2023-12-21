@@ -68,6 +68,7 @@ model Semester {
   semesterTitle    String
   batch            String
   semesterId       String             @id
+  session          String
   Semester_Courses Semester_Courses[]
   createdAt        DateTime           @default(now())
   updatedAt        DateTime           @updatedAt

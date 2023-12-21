@@ -8,10 +8,11 @@ import { createSemesterId } from './utils.services'
 const createSemester = async (
   semesterTitle: keyof typeof semesterTitles,
   batch: string,
+  session: string,
 ) => {
   const semesterId = createSemesterId(semesterTitle, batch)
   const semester = await prisma.semester.create({
-    data: { semesterTitle, batch, semesterId },
+    data: { semesterTitle, batch, semesterId, session },
   })
   return semester
 }
@@ -75,6 +76,7 @@ const getSemesterCourses = async (semesterId: string) => {
     select: {
       semesterTitle: true,
       batch: true,
+      session: true,
       Semester_Courses: {
         select: {
           course: {
@@ -82,6 +84,12 @@ const getSemesterCourses = async (semesterId: string) => {
               courseCode: true,
               courseTitle: true,
               credit: true,
+            },
+          },
+          teacher: {
+            select: {
+              name: true,
+              email: true,
             },
           },
         },
@@ -106,6 +114,16 @@ const unassignCourse = async (
   })
   return result
 }
+const getSemesterOfStudent = async (studentId: string) => {
+  const existingStudent = await userServices.getSingleStudent(studentId)
+  const semesters = await prisma.semester.findMany({
+    where: { batch: existingStudent.batch },
+    orderBy: {
+      semesterTitle: 'desc',
+    },
+  })
+  return semesters
+}
 export const semesterServices = {
   createSemester,
   getSemester,
@@ -115,4 +133,5 @@ export const semesterServices = {
   assignCourse,
   getSemesterCourses,
   unassignCourse,
+  getSemesterOfStudent,
 }

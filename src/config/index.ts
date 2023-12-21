@@ -6,4 +6,6 @@ dotenv.config({
 export default {
   port: process.env.PORT,
   database_url: process.env.DATABASE_URL,
+  saltRounds: process.env.SALT_ROUNDS,
+  jwtSecret: process.env.JWT_SECRET,
 }
