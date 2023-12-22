@@ -71,21 +71,30 @@ const assignCourse = async (
 }
 const getSemesterCourses = async (semesterId: string) => {
   await getSemester(semesterId)
-  const result = await prisma.semester.findUnique({
-    where: { semesterId },
-    select: {
-      semesterTitle: true,
-      batch: true,
-      session: true,
-      Semester_Courses: {
+  const coursesForSemester = await prisma.semester_Courses.findMany({
+    where: {
+      semesterId,
+    },
+    distinct: ['courseCode'],
+    include: {
+      course: {
         select: {
-          course: {
-            select: {
-              courseCode: true,
-              courseTitle: true,
-              credit: true,
-            },
-          },
+          courseCode: true,
+          courseTitle: true,
+          credit: true,
+        },
+      },
+    },
+  })
+
+  const coursesWithTeachers = await Promise.all(
+    coursesForSemester.map(async ({ course }) => {
+      const teachersForCourse = await prisma.semester_Courses.findMany({
+        where: {
+          semesterId,
+          courseCode: course.courseCode,
+        },
+        include: {
           teacher: {
             select: {
               name: true,
@@ -93,11 +102,15 @@ const getSemesterCourses = async (semesterId: string) => {
             },
           },
         },
-      },
-      // Add other fields you want to include
-    },
-  })
-  return result
+      })
+
+      return {
+        course,
+        teachers: teachersForCourse.map(({ teacher }) => teacher),
+      }
+    }),
+  )
+  return coursesWithTeachers
 }
 const unassignCourse = async (
   semesterId: string,
