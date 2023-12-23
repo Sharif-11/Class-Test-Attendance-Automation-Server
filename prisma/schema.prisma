@@ -60,6 +60,7 @@ model Course {
   updatedAt        DateTime           @updatedAt
   Class_Test       Class_Test[]
   Attendance       Attendance[]
+  Mark             Mark[]
 
   @@map("Courses")
 }
@@ -74,6 +75,7 @@ model Semester {
   updatedAt        DateTime           @updatedAt
   Class_Test       Class_Test[]
   Attendance       Attendance[]
+  Mark             Mark[]
 
   @@map("Semesters")
 }
@@ -94,7 +96,8 @@ model Class_Test {
   semesterId  String
   courseCode  String
   classTestId String   @unique @default(uuid())
-  full_mark   Int
+  full_mark   Float
+  evaluated   Boolean  @default(false)
   semester    Semester @relation(fields: [semesterId], references: [semesterId])
   course      Course   @relation(fields: [courseCode], references: [courseCode])
   createdAt   DateTime @default(now())
@@ -107,14 +110,18 @@ model Class_Test {
 
 model Mark {
   classTestId String
+  semesterId  String
+  courseCode  String
   studentId   String
   marks       Float
   classTest   Class_Test @relation(fields: [classTestId], references: [classTestId])
   student     Student    @relation(fields: [studentId], references: [studentId])
+  semester    Semester   @relation(fields: [semesterId], references: [semesterId])
+  course      Course     @relation(fields: [courseCode], references: [courseCode])
   createdAt   DateTime   @default(now())
   updatedAt   DateTime   @updatedAt
 
-  @@id([classTestId, studentId])
+  @@id([semesterId, courseCode, studentId])
   @@map("Marks")
 }
 

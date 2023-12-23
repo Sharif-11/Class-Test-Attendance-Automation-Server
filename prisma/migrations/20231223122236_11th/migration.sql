@@ -1,0 +1,2 @@
+-- AlterTable
+ALTER TABLE "Class_tests" ALTER COLUMN "full_mark" SET DATA TYPE DOUBLE PRECISION;
