@@ -40,7 +40,8 @@ const evaluateCt = catchAsync(async (req: Request, res: Response) => {
   // res.status(200).json(marksData)
 })
 const getAllCtResult = catchAsync(async (req: Request, res: Response) => {
-  const { semesterId, courseCode, studentId } = req.body
+  const { semesterId, courseCode } = req.body
+  const { studentId } = req.params
   const data = await classTestServices.getAllCtResult(
     semesterId,
     courseCode,

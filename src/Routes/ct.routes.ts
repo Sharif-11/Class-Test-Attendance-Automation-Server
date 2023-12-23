@@ -10,4 +10,5 @@ ctRoutes.post(
   upload.single('excelFile'),
   ctControllers.evaluateCt,
 )
+ctRoutes.get('/results/:studentId', ctControllers.getAllCtResult)
 export default ctRoutes

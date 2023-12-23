@@ -3,6 +3,7 @@ import httpStatus from 'http-status'
 import { ExcelMark } from '../Interfaces/ClassTestMarks.interface'
 import prisma from '../Shared/prisma'
 import ApiError from '../errors/ApiError'
+import { courseServices } from './courses.services'
 import { semesterServices } from './semester.services'
 import { userServices } from './user.services'
 
@@ -128,6 +129,8 @@ const getAllCtResult = async (
   courseCode: string,
   studentId: string,
 ) => {
+  await semesterServices.getSemester(semesterId)
+  await courseServices.getCourse(courseCode)
   const classTestsWithMarks = await prisma.class_Test.findMany({
     where: {
       AND: [
@@ -141,6 +144,11 @@ const getAllCtResult = async (
           studentId: studentId,
         },
       },
+      course: { select: { courseTitle: true, credit: true } },
+      semester: { select: { semesterTitle: true } },
+    },
+    orderBy: {
+      createdAt: 'asc',
     },
   })
   return classTestsWithMarks
