@@ -104,7 +104,7 @@ model Class_Test {
   updatedAt   DateTime @updatedAt
   Mark        Mark[]
 
-  @@id([semesterId, courseCode])
+  @@id([semesterId, courseCode, classTestId])
   @@map("Class_tests")
 }
 
