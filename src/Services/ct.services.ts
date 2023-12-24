@@ -7,8 +7,25 @@ import { courseServices } from './courses.services'
 import { semesterServices } from './semester.services'
 import { userServices } from './user.services'
 
-const createCt = async (data: Class_Test) => {
-  const result = await prisma.class_Test.create({ data })
+const createCt = async (
+  semesterId: string,
+  courseCode: string,
+  full_mark: number,
+) => {
+  await semesterServices.getSemester(semesterId)
+  await courseServices.getCourse(courseCode)
+  const existingSemesterCourse = await prisma.semester_Courses.findFirst({
+    where: { semesterId, courseCode },
+  })
+  if (!existingSemesterCourse) {
+    throw new ApiError(
+      httpStatus.BAD_REQUEST,
+      'Course is not assigned to the semester',
+    )
+  }
+  const result = await prisma.class_Test.create({
+    data: { semesterId, courseCode, full_mark },
+  })
   return result
 }
 const getCt = async (classTestId: string) => {
@@ -31,6 +48,7 @@ const getAllCt = async (semesterId: string, courseCode: string) => {
   return result
 }
 const updateCt = async (classTestId: string, data: Partial<Class_Test>) => {
+  await getCt(classTestId)
   const result = await prisma.class_Test.update({
     where: { classTestId },
     data,
@@ -38,6 +56,7 @@ const updateCt = async (classTestId: string, data: Partial<Class_Test>) => {
   return result
 }
 const deleteCt = async (classTestId: string) => {
+  await getCt(classTestId)
   const result = await prisma.class_Test.delete({ where: { classTestId } })
   return result
 }

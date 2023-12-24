@@ -7,8 +7,12 @@ import { classTestServices } from '../Services/ct.services'
 import { sendSuccessResponse } from '../Services/response.services'
 import catchAsync from '../Shared/catchAsync'
 const createCt = catchAsync(async (req: Request, res: Response) => {
-  console.log(req.body)
-  const data = await classTestServices.createCt(req.body)
+  const { semesterId, courseCode, full_mark } = req.body
+  const data = await classTestServices.createCt(
+    semesterId,
+    courseCode,
+    full_mark,
+  )
   console.log(data)
   sendSuccessResponse<Class_Test>(res, {
     statusCode: httpStatus.OK,
