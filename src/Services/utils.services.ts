@@ -29,7 +29,7 @@ export const comparePasswords = (
 }
 export const generateToken = (id: string, role: 'teacher' | 'student') => {
   const token = jwt.sign({ id, role }, config.jwtSecret as string, {
-    expiresIn: '1d',
+    expiresIn: '1y',
   })
   return token
 }

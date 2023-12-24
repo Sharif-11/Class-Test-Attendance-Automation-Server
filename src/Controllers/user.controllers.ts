@@ -7,12 +7,13 @@ import { hashPassword } from '../Services/utils.services'
 import catchAsync from '../Shared/catchAsync'
 
 const createTeacher = catchAsync(async (req: Request, res: Response) => {
-  const { password, ...others } = req.body
-
+  const { password, deptHead = false, ...others } = req.body
+  console.log(others)
   const result = await userServices.createTeacher({
     ...others,
     password: hashPassword(password),
     role: 'teacher',
+    deptHead: Boolean(deptHead),
   })
   sendSuccessResponse<Omit<Teacher, 'password'>>(res, {
     statusCode: httpStatus.OK,
@@ -23,11 +24,13 @@ const createTeacher = catchAsync(async (req: Request, res: Response) => {
 })
 const createStudent = catchAsync(async (req: Request, res: Response) => {
   const { password, ...others } = req.body
+  console.log(others)
   const result = await userServices.createStudent({
     ...others,
     password: hashPassword(password),
     role: 'student',
   })
+
   sendSuccessResponse<Omit<Student, 'password'>>(res, {
     statusCode: httpStatus.OK,
     success: true,
