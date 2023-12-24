@@ -50,6 +50,25 @@ const getAllCt = async (semesterId: string, courseCode: string) => {
   })
   return result
 }
+const getCtResultForTeacher = async (classTestId: string) => {
+  const existingCt = await getCt(classTestId)
+  if (existingCt.evaluated === false) {
+    throw new ApiError(httpStatus.BAD_REQUEST, 'This ct is not evaluated yet')
+  }
+  const result = await prisma.mark.findMany({
+    where: {
+      classTestId,
+    },
+    select: {
+      studentId: true,
+      marks: true,
+    },
+    orderBy: {
+      studentId: 'asc',
+    },
+  })
+  return result
+}
 const updateCt = async (classTestId: string, data: Partial<Class_Test>) => {
   await getCt(classTestId)
   const result = await prisma.class_Test.update({
@@ -202,4 +221,5 @@ export const classTestServices = {
   deleteCt,
   evaluateCt,
   getAllCtResult,
+  getCtResultForTeacher,
 }

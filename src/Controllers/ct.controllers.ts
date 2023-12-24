@@ -69,4 +69,22 @@ const getAllCtResult = catchAsync(async (req: Request, res: Response) => {
     data,
   })
 })
-export const ctControllers = { createCt, evaluateCt, getAllCtResult, getAllCt }
+const getCtResultForTeacher = catchAsync(
+  async (req: Request, res: Response) => {
+    const { classTestId } = req.params
+    const data = await classTestServices.getCtResultForTeacher(classTestId)
+    sendSuccessResponse<typeof data>(res, {
+      statusCode: httpStatus.OK,
+      success: true,
+      message: 'Result of a class test for teacher retreived successfully ',
+      data,
+    })
+  },
+)
+export const ctControllers = {
+  createCt,
+  evaluateCt,
+  getAllCtResult,
+  getAllCt,
+  getCtResultForTeacher,
+}
