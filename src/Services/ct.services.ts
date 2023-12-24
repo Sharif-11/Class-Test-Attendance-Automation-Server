@@ -39,6 +39,9 @@ const getCt = async (classTestId: string) => {
   return result
 }
 const getAllCt = async (semesterId: string, courseCode: string) => {
+  await semesterServices.getSemester(semesterId)
+  await courseServices.getCourse(courseCode)
+
   const result = await prisma.class_Test.findMany({
     where: { semesterId, courseCode },
     orderBy: {

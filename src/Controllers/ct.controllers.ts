@@ -21,6 +21,17 @@ const createCt = catchAsync(async (req: Request, res: Response) => {
     data,
   })
 })
+const getAllCt = catchAsync(async (req: Request, res: Response) => {
+  const { semesterId } = req.body
+  const { courseCode } = req.params
+  const data = await classTestServices.getAllCt(semesterId, courseCode)
+  sendSuccessResponse<typeof data>(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: 'Class tests of the course retreived successfully',
+    data,
+  })
+})
 const evaluateCt = catchAsync(async (req: Request, res: Response) => {
   const workbook = XLSX.read(req?.file?.buffer, { type: 'buffer' })
   const workSheet = workbook.Sheets[workbook.SheetNames[0]]
@@ -58,4 +69,4 @@ const getAllCtResult = catchAsync(async (req: Request, res: Response) => {
     data,
   })
 })
-export const ctControllers = { createCt, evaluateCt, getAllCtResult }
+export const ctControllers = { createCt, evaluateCt, getAllCtResult, getAllCt }
