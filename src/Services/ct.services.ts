@@ -13,7 +13,7 @@ const createCt = async (
   full_mark: number,
 ) => {
   await semesterServices.getSemester(semesterId)
-  await courseServices.getCourse(courseCode)
+  const existingCourse = await courseServices.getCourse(courseCode)
   const existingSemesterCourse = await prisma.semester_Courses.findFirst({
     where: { semesterId, courseCode },
   })
@@ -21,6 +21,15 @@ const createCt = async (
     throw new ApiError(
       httpStatus.BAD_REQUEST,
       'Course is not assigned to the semester',
+    )
+  }
+  const ctCount = await prisma.class_Test.findMany({
+    where: { semesterId, courseCode },
+  })
+  if (ctCount?.length >= existingCourse.credit + 1) {
+    throw new ApiError(
+      httpStatus.BAD_REQUEST,
+      'You are trying to create too many class test for a course',
     )
   }
   const result = await prisma.class_Test.create({
