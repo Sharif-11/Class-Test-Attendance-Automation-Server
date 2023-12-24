@@ -7,13 +7,12 @@ import { hashPassword } from '../Services/utils.services'
 import catchAsync from '../Shared/catchAsync'
 
 const createTeacher = catchAsync(async (req: Request, res: Response) => {
-  const { password, deptHead = false, ...others } = req.body
-  console.log(others)
+  const { password, deptHead, ...others } = req.body
   const result = await userServices.createTeacher({
     ...others,
     password: hashPassword(password),
     role: 'teacher',
-    deptHead: Boolean(deptHead),
+    deptHead: (deptHead as string).toLowerCase() === 'true',
   })
   sendSuccessResponse<Omit<Teacher, 'password'>>(res, {
     statusCode: httpStatus.OK,
