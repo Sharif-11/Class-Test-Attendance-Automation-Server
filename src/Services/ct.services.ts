@@ -151,9 +151,24 @@ const getAllCtResult = async (
   courseCode: string,
   studentId: string,
 ) => {
-  await semesterServices.getSemester(semesterId)
+  const existingSemester = await semesterServices.getSemester(semesterId)
   await courseServices.getCourse(courseCode)
-  await userServices.getSingleStudent(studentId)
+  const existingStudent = await userServices.getSingleStudent(studentId)
+  const existingSemesterCourse = await prisma.semester_Courses.findFirst({
+    where: { semesterId, courseCode },
+  })
+  if (existingStudent.batch !== existingSemester.batch) {
+    throw new ApiError(
+      httpStatus.BAD_REQUEST,
+      'The student does not belongs to this course',
+    )
+  }
+  if (!existingSemesterCourse) {
+    throw new ApiError(
+      httpStatus.BAD_REQUEST,
+      'The course are not assigned to this semester',
+    )
+  }
   const classTestsWithMarks = await prisma.class_Test.findMany({
     where: {
       AND: [
