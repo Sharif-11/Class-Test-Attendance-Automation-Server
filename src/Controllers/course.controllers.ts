@@ -45,9 +45,20 @@ const getAllCourses = catchAsync(async (req: Request, res: Response) => {
     data,
   })
 })
+const getCoursesOfTeacher = catchAsync(async (req: Request, res: Response) => {
+  const { teacherId } = req.params
+  const data = await courseServices.getCoursesOfTeacher(teacherId)
+  sendSuccessResponse<typeof data>(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: 'courses of the teacher retreived successfully',
+    data,
+  })
+})
 export const courseControllers = {
   createCourse,
   deleteCourse,
   updateCourse,
   getAllCourses,
+  getCoursesOfTeacher,
 }

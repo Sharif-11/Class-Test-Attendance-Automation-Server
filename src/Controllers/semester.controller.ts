@@ -85,6 +85,7 @@ const assignCourse = catchAsync(async (req: Request, res: Response) => {
     data,
   })
 })
+
 export const semesterControllers = {
   createSemester,
   getAllSemesters,

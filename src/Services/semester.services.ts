@@ -137,6 +137,7 @@ const getSemesterOfStudent = async (studentId: string) => {
   })
   return semesters
 }
+
 export const semesterServices = {
   createSemester,
   getSemester,

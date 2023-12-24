@@ -16,4 +16,5 @@ semesterRoutes.post(
   '/assign-course/:semesterId',
   semesterControllers.assignCourse,
 )
+
 export default semesterRoutes

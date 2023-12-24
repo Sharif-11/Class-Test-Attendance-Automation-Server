@@ -1,5 +1,6 @@
 import { Course } from '@prisma/client'
 import prisma from '../Shared/prisma'
+import { userServices } from './user.services'
 
 const createCourse = async (courseData: Course) => {
   const course = await prisma.course.create({ data: courseData })
@@ -29,10 +30,40 @@ const deleteCourse = async (courseCode: string) => {
   const result = await prisma.course.delete({ where: { courseCode } })
   return result
 }
+
+const getCoursesOfTeacher = async (teacherId: string) => {
+  await userServices.getSingleTeacher(teacherId)
+  const result = await prisma.semester_Courses.findMany({
+    where: { teacherId },
+    include: {
+      semester: {
+        select: {
+          semesterTitle: true,
+          batch: true,
+          session: true,
+        },
+      },
+      course: {
+        select: {
+          courseTitle: true,
+          credit: true,
+        },
+      },
+    },
+    orderBy: {
+      course: {
+        createdAt: 'desc',
+      },
+    },
+  })
+  return result
+}
+
 export const courseServices = {
   createCourse,
   updateCourse,
   getCourse,
   deleteCourse,
   getAllCourse,
+  getCoursesOfTeacher,
 }

@@ -5,4 +5,5 @@ courseRoutes.post('/', courseControllers.createCourse)
 courseRoutes.get('/', courseControllers.getAllCourses)
 courseRoutes.delete('/:courseCode', courseControllers.deleteCourse)
 courseRoutes.patch('/:courseCode', courseControllers.updateCourse)
+courseRoutes.get('/teacher/:teacherId', courseControllers.getCoursesOfTeacher)
 export default courseRoutes
