@@ -121,7 +121,7 @@ model Mark {
   createdAt   DateTime   @default(now())
   updatedAt   DateTime   @updatedAt
 
-  @@id([semesterId, courseCode, studentId])
+  @@id([semesterId, courseCode, studentId, classTestId])
   @@map("Marks")
 }
 

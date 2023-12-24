@@ -81,6 +81,9 @@ const evaluateCt = async (classTestId: string, marksData: ExcelMark[]) => {
         'The students does not belongs to the semester',
       )
     }
+    if (Number(marks) < 0) {
+      throw new ApiError(httpStatus.BAD_REQUEST, 'Marks can not be negative')
+    }
     if (Number(marks) > full_mark) {
       throw new ApiError(
         httpStatus.BAD_REQUEST,
@@ -150,6 +153,7 @@ const getAllCtResult = async (
 ) => {
   await semesterServices.getSemester(semesterId)
   await courseServices.getCourse(courseCode)
+  await userServices.getSingleStudent(studentId)
   const classTestsWithMarks = await prisma.class_Test.findMany({
     where: {
       AND: [
