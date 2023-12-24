@@ -7,7 +7,7 @@ import { hashPassword } from '../Services/utils.services'
 import catchAsync from '../Shared/catchAsync'
 
 const createTeacher = catchAsync(async (req: Request, res: Response) => {
-  const { password, deptHead, ...others } = req.body
+  const { password, deptHead = 'false', ...others } = req.body
   const result = await userServices.createTeacher({
     ...others,
     password: hashPassword(password),
