@@ -47,7 +47,7 @@ const tabulateStudentAttendance = catchAsync(
     sendSuccessResponse<typeof data>(res, {
       statusCode: httpStatus.OK,
       success: true,
-      message: 'Attendance of a course calculated successfully',
+      message: 'Attendance of a course tabulated successfully',
       data,
     })
   },
