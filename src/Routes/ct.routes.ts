@@ -11,5 +11,6 @@ ctRoutes.post(
 )
 ctRoutes.get('/results/:studentId', ctControllers.getAllCtResult)
 ctRoutes.get('/teacher-ct/:courseCode', ctControllers.getAllCt)
+ctRoutes.get('/final-result/:courseCode', ctControllers.calculateFinalResult)
 ctRoutes.get('/ct-result/:classTestId', ctControllers.getCtResultForTeacher)
 export default ctRoutes

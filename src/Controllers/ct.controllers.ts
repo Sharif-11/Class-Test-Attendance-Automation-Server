@@ -81,10 +81,26 @@ const getCtResultForTeacher = catchAsync(
     })
   },
 )
+const calculateFinalResult = catchAsync(async (req: Request, res: Response) => {
+  const { courseCode } = req.params
+  const { semesterId } = req.body
+  console.log({ courseCode, semesterId })
+  const data = await classTestServices.calculateFinalResult(
+    semesterId,
+    courseCode,
+  )
+  sendSuccessResponse<typeof data>(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: 'Final result of the class test calculated successfully',
+    data,
+  })
+})
 export const ctControllers = {
   createCt,
   evaluateCt,
   getAllCtResult,
   getAllCt,
   getCtResultForTeacher,
+  calculateFinalResult,
 }

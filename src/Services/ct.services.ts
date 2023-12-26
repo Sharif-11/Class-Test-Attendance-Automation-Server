@@ -222,6 +222,40 @@ const getAllCtResult = async (
   })
   return classTestsWithMarks
 }
+const calculateFinalResult = async (semesterId: string, courseCode: string) => {
+  await semesterServices.getSemester(semesterId)
+  const existingCourse = await courseServices.getCourse(courseCode)
+
+  const topMarksByStudent = await prisma.mark.groupBy({
+    by: ['studentId', 'semesterId', 'courseCode'],
+    where: { semesterId, courseCode },
+    _sum: {
+      marks: true,
+    },
+    _count: {
+      marks: true,
+    },
+  })
+  if (topMarksByStudent[0]._count.marks <= existingCourse.credit) {
+    return topMarksByStudent
+  }
+  const worstMarkByStudent = await prisma.mark.groupBy({
+    by: ['studentId', 'semesterId', 'courseCode'],
+    where: { semesterId, courseCode },
+    _min: {
+      marks: true,
+    },
+  })
+  const finalMark = topMarksByStudent.map((item, idx) => {
+    if (item._sum.marks && worstMarkByStudent[idx]._min.marks) {
+      item._sum.marks -= worstMarkByStudent[idx]._min.marks as number
+    }
+    return item
+  })
+
+  return finalMark
+}
+
 export const classTestServices = {
   createCt,
   getCt,
@@ -231,4 +265,5 @@ export const classTestServices = {
   evaluateCt,
   getAllCtResult,
   getCtResultForTeacher,
+  calculateFinalResult,
 }
