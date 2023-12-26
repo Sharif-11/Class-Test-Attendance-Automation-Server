@@ -18,6 +18,15 @@ const takeAttendance = async (
   }
   const existingSemester = await semesterServices.getSemester(semesterId)
   await courseServices.getCourse(courseCode)
+  const existingSemesterCourses = await prisma.semester_Courses.findFirst({
+    where: { semesterId, courseCode },
+  })
+  if (!existingSemesterCourses) {
+    throw new ApiError(
+      httpStatus.BAD_REQUEST,
+      'The course does not belongs to this semester',
+    )
+  }
   const existingAttendance = await prisma.attendance.findFirst({
     where: { semesterId, courseCode, date },
   })
