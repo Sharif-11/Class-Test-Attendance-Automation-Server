@@ -6,4 +6,8 @@ attendanceRoutes.get(
   '/calculate-attendance/:studentId',
   attendanceController.calculateStudentAttendance,
 )
+attendanceRoutes.get(
+  '/tabulate-attendance/:courseCode',
+  attendanceController.tabulateStudentAttendance,
+)
 export default attendanceRoutes

@@ -107,6 +107,15 @@ const calclateStudentAttendance = async (
   await semesterServices.getSemester(semesterId)
   await courseServices.getCourse(courseCode)
   await userServices.getSingleStudent(studentId)
+  const existingSemesterCourses = await prisma.semester_Courses.findFirst({
+    where: { semesterId, courseCode },
+  })
+  if (!existingSemesterCourses) {
+    throw new ApiError(
+      httpStatus.BAD_REQUEST,
+      'The course does not belongs to this semester',
+    )
+  }
   const totalClasses = await prisma.attendance.count({
     where: { semesterId, courseCode },
   })
@@ -127,4 +136,41 @@ const calclateStudentAttendance = async (
       totalClasses > 0 ? (totalAttendances * 100) / totalClasses : null,
   }
 }
-export const attendanceServices = { takeAttendance, calclateStudentAttendance }
+const tabulateStudentAttendance = async (
+  semesterId: string,
+  courseCode: string,
+) => {
+  await semesterServices.getSemester(semesterId)
+  await courseServices.getCourse(courseCode)
+  const existingSemesterCourses = await prisma.semester_Courses.findFirst({
+    where: { semesterId, courseCode },
+  })
+  if (!existingSemesterCourses) {
+    throw new ApiError(
+      httpStatus.BAD_REQUEST,
+      'The course does not belongs to this semester',
+    )
+  }
+  const totalClasses = await prisma.attendance.count({
+    where: { semesterId, courseCode },
+  })
+  const studentTotalAttendance = await prisma.student_Attendance.groupBy({
+    by: ['studentId', 'present'],
+    _count: {
+      present: true,
+    },
+    where: {
+      attendance: {
+        semesterId: semesterId,
+        courseCode: courseCode,
+      },
+    },
+    having: { present: true },
+  })
+  return { totalClasses, studentTotalAttendance }
+}
+export const attendanceServices = {
+  takeAttendance,
+  calclateStudentAttendance,
+  tabulateStudentAttendance,
+}

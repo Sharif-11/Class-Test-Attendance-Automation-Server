@@ -31,7 +31,23 @@ const calculateStudentAttendance = catchAsync(
     sendSuccessResponse<typeof data>(res, {
       statusCode: httpStatus.OK,
       success: true,
-      message: 'attendances of a student calculated successfully',
+      message: 'Attendances of a student calculated successfully',
+      data,
+    })
+  },
+)
+const tabulateStudentAttendance = catchAsync(
+  async (req: Request, res: Response) => {
+    const { courseCode } = req.params
+    const { semesterId } = req.body
+    const data = await attendanceServices.tabulateStudentAttendance(
+      semesterId,
+      courseCode,
+    )
+    sendSuccessResponse<typeof data>(res, {
+      statusCode: httpStatus.OK,
+      success: true,
+      message: 'Attendance of a course calculated successfully',
       data,
     })
   },
@@ -39,4 +55,5 @@ const calculateStudentAttendance = catchAsync(
 export const attendanceController = {
   takeAttendance,
   calculateStudentAttendance,
+  tabulateStudentAttendance,
 }
