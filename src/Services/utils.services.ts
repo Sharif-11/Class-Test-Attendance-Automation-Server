@@ -33,3 +33,11 @@ export const generateToken = (id: string, role: 'teacher' | 'student') => {
   })
   return token
 }
+export const verifyDate = (date: Date) => {
+  const today = new Date()
+  return (
+    today.getDate() === date.getDate() &&
+    today.getMonth() === date.getMonth() &&
+    today.getFullYear() === date.getFullYear()
+  )
+}

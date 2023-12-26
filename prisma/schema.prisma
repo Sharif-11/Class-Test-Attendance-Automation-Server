@@ -16,18 +16,19 @@ enum Role {
 }
 
 model Student {
-  studentId    String   @id
-  name         String
-  email        String   @unique
-  batch        String
-  session      String
-  department   String
-  role         Role
-  password     String
-  profileImage String
-  createdAt    DateTime @default(now())
-  updatedAt    DateTime @updatedAt
-  Mark         Mark[]
+  studentId          String               @id
+  name               String
+  email              String               @unique
+  batch              String
+  session            String
+  department         String
+  role               Role
+  password           String
+  profileImage       String
+  createdAt          DateTime             @default(now())
+  updatedAt          DateTime             @updatedAt
+  Mark               Mark[]
+  Student_Attendance Student_Attendance[]
 
   @@map("Students")
 }
@@ -126,14 +127,27 @@ model Mark {
 }
 
 model Attendance {
-  semesterId  String
-  courseCode  String
-  Date        DateTime @default(now())
-  studentList String[]
-  semester    Semester @relation(fields: [semesterId], references: [semesterId])
-  course      Course   @relation(fields: [courseCode], references: [courseCode])
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  attendanceId       String               @unique @default(uuid())
+  semesterId         String
+  courseCode         String
+  date               DateTime             @default(now())
+  semester           Semester             @relation(fields: [semesterId], references: [semesterId])
+  course             Course               @relation(fields: [courseCode], references: [courseCode])
+  createdAt          DateTime             @default(now())
+  updatedAt          DateTime             @updatedAt
+  Student_Attendance Student_Attendance[]
 
-  @@id([semesterId, courseCode])
+  @@id([semesterId, courseCode, date])
+  @@map("Attendances")
+}
+
+model Student_Attendance {
+  attendanceId String
+  studentId    String
+  present      Boolean
+  attendance   Attendance @relation(fields: [attendanceId], references: [attendanceId])
+  student      Student    @relation(fields: [studentId], references: [studentId])
+
+  @@id([attendanceId, studentId])
+  @@map("Student_attendances")
 }

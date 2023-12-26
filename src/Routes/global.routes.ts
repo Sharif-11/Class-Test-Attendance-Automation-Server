@@ -1,4 +1,5 @@
 import express from 'express'
+import attendanceRoutes from './attendance.route'
 import authRoutes from './auth.routes'
 import courseRoutes from './course.routes'
 import ctRoutes from './ct.routes'
@@ -30,6 +31,10 @@ const moduleRoutes = [
   {
     path: '/ct',
     route: ctRoutes,
+  },
+  {
+    path: '/attendances',
+    route: attendanceRoutes,
   },
 ]
 moduleRoutes.forEach(route => globalRoutes.use(route.path, route.route))
