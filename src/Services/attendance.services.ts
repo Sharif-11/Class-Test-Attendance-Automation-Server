@@ -4,6 +4,7 @@ import prisma from '../Shared/prisma'
 import ApiError from '../errors/ApiError'
 import { courseServices } from './courses.services'
 import { semesterServices } from './semester.services'
+import { userServices } from './user.services'
 import { verifyDate } from './utils.services'
 
 const takeAttendance = async (
@@ -98,4 +99,32 @@ const takeAttendance = async (
     return result
   }
 }
-export const attendanceServices = { takeAttendance }
+const calclateStudentAttendance = async (
+  semesterId: string,
+  courseCode: string,
+  studentId: string,
+) => {
+  await semesterServices.getSemester(semesterId)
+  await courseServices.getCourse(courseCode)
+  await userServices.getSingleStudent(studentId)
+  const totalClasses = await prisma.attendance.count({
+    where: { semesterId, courseCode },
+  })
+  const totalAttendances = await prisma.student_Attendance.count({
+    where: {
+      studentId: studentId,
+      present: true,
+      attendance: {
+        semesterId: semesterId,
+        courseCode: courseCode,
+      },
+    },
+  })
+  return {
+    totalAttendances,
+    totalClasses,
+    attendanceRatio:
+      totalClasses > 0 ? (totalAttendances * 100) / totalClasses : null,
+  }
+}
+export const attendanceServices = { takeAttendance, calclateStudentAttendance }

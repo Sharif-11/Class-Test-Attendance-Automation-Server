@@ -19,4 +19,24 @@ const takeAttendance = catchAsync(async (req: Request, res: Response) => {
     data,
   })
 })
-export const attendanceController = { takeAttendance }
+const calculateStudentAttendance = catchAsync(
+  async (req: Request, res: Response) => {
+    const { semesterId, courseCode } = req.body
+    const { studentId } = req.params
+    const data = await attendanceServices.calclateStudentAttendance(
+      semesterId,
+      courseCode,
+      studentId,
+    )
+    sendSuccessResponse<typeof data>(res, {
+      statusCode: httpStatus.OK,
+      success: true,
+      message: 'attendances of a student calculated successfully',
+      data,
+    })
+  },
+)
+export const attendanceController = {
+  takeAttendance,
+  calculateStudentAttendance,
+}
