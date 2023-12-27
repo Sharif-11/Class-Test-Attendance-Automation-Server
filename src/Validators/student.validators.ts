@@ -51,7 +51,7 @@ const validateStudent = [
     .withMessage('Password must be a string')
     .isLength({ min: 6, max: 16 })
     .withMessage('Password must be between 6 and 16 characters'),
-  validationErrorHandler,
+  validationErrorHandler('Student validation failed'),
 ]
 const validateStudentLogin = [
   body('studentId')
@@ -68,6 +68,6 @@ const validateStudentLogin = [
     .isLength({ min: 6, max: 16 })
     .withMessage('Password must be between 6 and 16 characters'),
 
-  validationErrorHandler,
+  validationErrorHandler('Student login validation failed'),
 ]
 export const studentValidators = { validateStudent, validateStudentLogin }

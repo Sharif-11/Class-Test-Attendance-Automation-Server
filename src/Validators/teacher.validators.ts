@@ -45,7 +45,7 @@ const validateTeacher = [
     .isLength({ min: 6, max: 16 })
     .withMessage('Password must be between 6 and 16 characters'),
   body('deptHead').isBoolean().withMessage('Dept Head must be a boolean'),
-  validationErrorHandler,
+  validationErrorHandler('Teacher validation failed'),
 ]
 
 const validateHead = [
@@ -54,7 +54,7 @@ const validateHead = [
     .withMessage('Teacher ID must be a string')
     .matches(/^[a-zA-Z]{3}-\d{4}$/)
     .withMessage('Invalid Teacher ID format'),
-  validationErrorHandler,
+  validationErrorHandler('Teacher validation failed'),
 ]
 
 const validateTeacherLogin = [
@@ -70,7 +70,7 @@ const validateTeacherLogin = [
     .isLength({ min: 6, max: 16 })
     .withMessage('Password must be between 6 and 16 characters'),
 
-  validationErrorHandler,
+  validationErrorHandler('Teacher login validation failed'),
 ]
 
 export const teacherValidators = {

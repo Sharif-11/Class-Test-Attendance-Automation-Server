@@ -29,7 +29,7 @@ const validateCreateSemester = [
       return years[1] - years[0] === 1
     })
     .withMessage('Year must be consecutive'),
-  validationErrorHandler,
+  validationErrorHandler('Semester validation failed'),
 ]
 
 // Validation for updateSemester controller
@@ -70,7 +70,7 @@ const validateUpdateSemester = [
       return years[1] - years[0] === 1
     })
     .withMessage('Year must be consecutive'),
-  validationErrorHandler,
+  validationErrorHandler('Semester validation failed'),
 ]
 
 // Validation for deleteSemester controller
@@ -82,7 +82,7 @@ const validateDeleteSemester = [
     .withMessage('Semester ID must be 5 characters')
     .isNumeric()
     .withMessage('Semester ID must contain only digits'),
-  validationErrorHandler,
+  validationErrorHandler('Semester validation failed'),
 ]
 
 // Validation for getSemestersOfStudent controller
@@ -94,7 +94,7 @@ const validateGetSemestersOfStudent = [
     .withMessage('Student ID must be 7 characters')
     .isNumeric()
     .withMessage('Student ID must contain only digits'),
-  validationErrorHandler,
+  validationErrorHandler('Semester validation failed'),
 ]
 
 // Validation for getSemesterCourses controller
@@ -106,7 +106,7 @@ const validateGetSemesterCourses = [
     .withMessage('Semester ID must be 5 characters')
     .isNumeric()
     .withMessage('Semester ID must contain only digits'),
-  validationErrorHandler,
+  validationErrorHandler('Semester validation failed'),
 ]
 
 // Validation for assignCourse controller
@@ -132,7 +132,7 @@ const validateAssignCourse = [
     .withMessage('Course code must be 7 characters')
     .matches(/^[A-Z]{3}-\d{3}$/)
     .withMessage('Invalid course code format'),
-  validationErrorHandler,
+  validationErrorHandler('Assign course validation failed'),
 ]
 export const semesterValidators = {
   validateCreateSemester,
