@@ -16,7 +16,7 @@ enum Role {
 }
 
 model Student {
-  studentId          String               @id
+  studentId          String               @id 
   name               String
   email              String               @unique
   batch              String

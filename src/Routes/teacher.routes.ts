@@ -1,11 +1,11 @@
 import express from 'express'
 import { userControllers } from '../Controllers/user.controllers'
-import { multerConfig } from '../config/multer'
+import validateTeacher from '../Validators/teacher.validators'
 import imageUploader from '../middlewares/imageUploade.middleware'
 const teacherRoutes = express.Router()
 teacherRoutes.post(
   '/signup',
-  multerConfig.uploadImage.single('profileImage'),
+  validateTeacher,
   imageUploader,
   userControllers.createTeacher,
 )
