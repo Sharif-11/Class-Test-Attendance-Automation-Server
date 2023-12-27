@@ -1,4 +1,5 @@
 import express from 'express'
+import { authControllers } from '../Controllers/auth.controllers'
 import { userControllers } from '../Controllers/user.controllers'
 import { teacherValidators } from '../Validators/teacher.validators'
 import { multerConfig } from '../config/multer'
@@ -10,6 +11,11 @@ teacherRoutes.post(
   teacherValidators.validateTeacher,
   imageUploader,
   userControllers.createTeacher,
+)
+teacherRoutes.post(
+  '/login',
+  teacherValidators.validateTeacherLogin,
+  authControllers.teacherLogin,
 )
 teacherRoutes.post(
   '/make-head/:teacherId',

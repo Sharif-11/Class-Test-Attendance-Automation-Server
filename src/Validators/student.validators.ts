@@ -53,5 +53,21 @@ const validateStudent = [
     .withMessage('Password must be between 6 and 16 characters'),
   validationErrorHandler,
 ]
+const validateStudentLogin = [
+  body('studentId')
+    .isString()
+    .withMessage('Student ID must be a string')
+    .isLength({ min: 7, max: 7 })
+    .withMessage('Student ID must be 7 characters')
+    .isNumeric()
+    .withMessage('Student ID must contain only digits'),
 
-export const studentValidators = { validateStudent }
+  body('password')
+    .isString()
+    .withMessage('Password must be a string')
+    .isLength({ min: 6, max: 16 })
+    .withMessage('Password must be between 6 and 16 characters'),
+
+  validationErrorHandler,
+]
+export const studentValidators = { validateStudent, validateStudentLogin }

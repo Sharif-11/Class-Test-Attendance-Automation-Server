@@ -13,6 +13,10 @@ studentRoutes.post(
   imageUploader,
   userControllers.createStudent,
 )
-studentRoutes.post('/login', authControllers.studentLogin)
+studentRoutes.post(
+  '/login',
+  studentValidators.validateStudentLogin,
+  authControllers.studentLogin,
+)
 
 export default studentRoutes
