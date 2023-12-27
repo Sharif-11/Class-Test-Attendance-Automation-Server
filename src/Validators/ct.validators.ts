@@ -6,7 +6,9 @@ const validateCreateCt = [
     .isString()
     .withMessage('Semester ID must be a string')
     .isLength({ min: 5, max: 5 })
-    .withMessage('Semester ID must be 5 characters'),
+    .withMessage('Semester ID must be 5 characters')
+    .isNumeric()
+    .withMessage('semesterId must be numeric'),
 
   body('courseCode')
     .isString()
@@ -78,7 +80,9 @@ const validateCalculateFinalResult = [
     .isString()
     .withMessage('Semester ID must be a string')
     .isLength({ min: 5, max: 5 })
-    .withMessage('Semester ID must be 5 characters'),
+    .withMessage('Semester ID must be 5 characters')
+    .isNumeric()
+    .withMessage('semesterId must be numeric'),
   validationErrorHandler('Ct validation failed'),
 ]
 const validateGetCtResultForTeacher = [
