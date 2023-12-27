@@ -44,7 +44,7 @@ const evaluateCt = catchAsync(async (req: Request, res: Response) => {
     }
     return false
   })
-  const { classTestId } = req.body
+  const { classTestId } = req.params
   const data = await classTestServices.evaluateCt(classTestId, uniqueData)
   sendSuccessResponse<typeof data>(res, {
     statusCode: httpStatus.OK,
@@ -84,7 +84,6 @@ const getCtResultForTeacher = catchAsync(
 const calculateFinalResult = catchAsync(async (req: Request, res: Response) => {
   const { courseCode } = req.params
   const { semesterId } = req.body
-  console.log({ courseCode, semesterId })
   const data = await classTestServices.calculateFinalResult(
     semesterId,
     courseCode,
