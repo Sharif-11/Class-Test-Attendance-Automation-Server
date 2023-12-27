@@ -1,10 +1,7 @@
-import { body } from 'express-validator'
-import { multerConfig } from '../config/multer'
+import { body, param } from 'express-validator'
 import validationErrorHandler from '../middlewares/validationHandler'
 
 const validateTeacher = [
-  multerConfig.uploadImage.single('profileImage'),
-
   body('teacherId')
     .isString()
     .withMessage('Teacher ID must be a string')
@@ -51,4 +48,13 @@ const validateTeacher = [
   validationErrorHandler,
 ]
 
-export default validateTeacher
+const validateHead = [
+  param('teacherId')
+    .isString()
+    .withMessage('Teacher ID must be a string')
+    .matches(/^[a-zA-Z]{3}-\d{4}$/)
+    .withMessage('Invalid Teacher ID format'),
+  validationErrorHandler,
+]
+
+export const teacherValidators = { validateTeacher, validateHead }
