@@ -9,6 +9,21 @@ export const knownRequestHandler = (error: PrismaClientKnownRequestError) => {
       message: `${meta?.target} must be unique`,
     }
     return result
+  } else if (error.code === 'P2003') {
+    if (error.message.includes('delete()` invocation:')) {
+      const result: ErrorMessage = {
+        path: '',
+        message: 'Delete failed',
+      }
+      return result
+    }
+  } else if (error.code === 'P2025') {
+    const result: ErrorMessage = {
+      path: '',
+      message: (meta?.cause as string) || 'Record not found!',
+    }
+    return result
   }
+
   return { path: '', message: '' }
 }

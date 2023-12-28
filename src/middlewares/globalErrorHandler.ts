@@ -28,10 +28,11 @@ const globalErrorHandler: ErrorRequestHandler = (error, req, res, next) => {
       success: false,
       message,
       errorMessages: [{ message, path }],
+      stack: error?.stack,
     }
     res.status(httpStatus.BAD_REQUEST).json(errorResponse)
   } else if (error instanceof Prisma.PrismaClientValidationError) {
-    res.status(400).json({
+    const errorResponse: ErrorResponse = {
       statusCode: httpStatus.BAD_REQUEST,
       success: false,
       message: 'invalid value for some fields',
@@ -41,9 +42,11 @@ const globalErrorHandler: ErrorRequestHandler = (error, req, res, next) => {
           message: '',
         },
       ],
-    })
+      stack: error?.stack,
+    }
+    res.status(400).json(errorResponse)
   } else {
-    res.status(400).json({
+    const errorResponse: ErrorResponse = {
       statusCode: httpStatus.BAD_REQUEST,
       success: false,
       message: error.message,
@@ -53,7 +56,8 @@ const globalErrorHandler: ErrorRequestHandler = (error, req, res, next) => {
           message: error.message,
         },
       ],
-    })
+    }
+    res.status(400).json(errorResponse)
   }
 }
 export default globalErrorHandler

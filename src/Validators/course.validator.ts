@@ -48,7 +48,6 @@ export const validateUpdateCourse = [
   body('courseTitle')
     .optional()
     .isString()
-    .optional()
     .withMessage('Course title must be a string')
     .isLength({ max: 48 })
     .withMessage('Course title must be at most 48 characters'),
