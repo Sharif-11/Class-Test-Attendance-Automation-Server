@@ -35,11 +35,11 @@ const globalErrorHandler: ErrorRequestHandler = (error, req, res, next) => {
     const errorResponse: ErrorResponse = {
       statusCode: httpStatus.BAD_REQUEST,
       success: false,
-      message: 'invalid value for some fields',
+      message: 'Prisma validation errors',
       errorMessages: [
         {
           path: '',
-          message: '',
+          message: error?.message,
         },
       ],
       stack: error?.stack,
