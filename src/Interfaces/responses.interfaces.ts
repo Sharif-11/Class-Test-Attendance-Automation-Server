@@ -6,7 +6,7 @@ export type ErrorResponse = {
   statusCode: number
   success: boolean
   message: string
-  errorMessages: ErrorMessage[]
+  errorMessages?: ErrorMessage[]
   stack?: string
 }
 export type SuccessResponse<T> = {
