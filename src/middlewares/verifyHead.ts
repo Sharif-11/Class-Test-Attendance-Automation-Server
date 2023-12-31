@@ -5,15 +5,15 @@ import prisma from '../Shared/prisma'
 
 const verifyHead: RequestHandler = async (req, res, next) => {
   const { user } = req
-  const { id } = user
+  const { teacherId } = user
   const currentHead = await prisma.teacher.findFirst({
-    where: { teacherId: id, deptHead: true },
+    where: { teacherId, deptHead: true },
   })
   if (!currentHead) {
     const errorResponse: ErrorResponse = {
       statusCode: httpStatus.UNAUTHORIZED,
       success: false,
-      message: 'The teacher with this id is not the head of department',
+      message: 'Only head can access the route',
     }
     res.status(httpStatus.UNAUTHORIZED).json(errorResponse)
   } else {

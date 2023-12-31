@@ -50,8 +50,8 @@ const deleteSemester = catchAsync(async (req: Request, res: Response) => {
 })
 const getSemestersOfStudent = catchAsync(
   async (req: Request, res: Response) => {
-    const { studentId } = req.params
-    const data = await semesterServices.getSemesterOfStudent(studentId)
+    const { id } = req.user
+    const data = await semesterServices.getSemesterOfStudent(id)
     sendSuccessResponse<Semester[]>(res, {
       statusCode: httpStatus.OK,
       success: true,

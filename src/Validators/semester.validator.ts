@@ -85,18 +85,6 @@ const validateDeleteSemester = [
   validationErrorHandler('Semester validation failed'),
 ]
 
-// Validation for getSemestersOfStudent controller
-const validateGetSemestersOfStudent = [
-  param('studentId')
-    .isString()
-    .withMessage('Student ID must be a string')
-    .isLength({ min: 7, max: 7 })
-    .withMessage('Student ID must be 7 characters')
-    .isNumeric()
-    .withMessage('Student ID must contain only digits'),
-  validationErrorHandler('Semester validation failed'),
-]
-
 // Validation for getSemesterCourses controller
 const validateGetSemesterCourses = [
   param('semesterId')
@@ -139,6 +127,5 @@ export const semesterValidators = {
   validateDeleteSemester,
   validateAssignCourse,
   validateGetSemesterCourses,
-  validateGetSemestersOfStudent,
   validateUpdateSemester,
 }

@@ -37,11 +37,11 @@ const verifyUser = (...roles: Role[]) => {
                   `Only ${roles} can access this route`,
                 )
               } else if (role === 'student') {
-                await userServices.getSingleStudent(id)
+                req.user = await userServices.getSingleStudent(id)
               } else if (role === 'teacher') {
-                await userServices.getSingleTeacher(id)
+                req.user = await userServices.getSingleTeacher(id)
               }
-              req.user = decoded
+
               next()
             } catch (error) {
               next(error)
