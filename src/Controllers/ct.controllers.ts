@@ -56,7 +56,7 @@ const evaluateCt = catchAsync(async (req: Request, res: Response) => {
 })
 const getAllCtResult = catchAsync(async (req: Request, res: Response) => {
   const { semesterId, courseCode } = req.body
-  const { studentId } = req.params
+  const { studentId } = req.user
   const data = await classTestServices.getAllCtResult(
     semesterId,
     courseCode,

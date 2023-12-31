@@ -4,7 +4,9 @@ import { ErrorResponse } from '../Interfaces/responses.interfaces'
 
 const verifyBatch: RequestHandler = async (req, res, next) => {
   const { batch } = req.user
-  const semesterBatch = req.params.semesterId.substring(0, 4)
+  const semesterBatch =
+    req.params?.semesterId?.substring(0, 4) ||
+    req.body?.semesterId?.substring(0, 4)
   if (batch === semesterBatch) {
     next()
   } else {
