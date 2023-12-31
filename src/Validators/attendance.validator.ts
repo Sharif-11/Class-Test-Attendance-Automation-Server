@@ -56,14 +56,6 @@ const validateCalculateStudentAttendance = [
     .withMessage('Course code must be 7 characters')
     .matches(/^[A-Z]{3}-\d{3}$/)
     .withMessage('Invalid course code format.'),
-
-  param('studentId')
-    .isString()
-    .withMessage('Student ID must be a string')
-    .isLength({ min: 7, max: 7 })
-    .withMessage('Student ID must be 7 characters')
-    .isNumeric()
-    .withMessage('Student ID must contain only digits'),
   validationErrorHandler('Attendance validation failed'),
 ]
 const validateTabulateStudentAttendance = [

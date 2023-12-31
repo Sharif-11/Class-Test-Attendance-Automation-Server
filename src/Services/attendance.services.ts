@@ -159,6 +159,7 @@ const tabulateStudentAttendance = async (
     _count: {
       present: true,
     },
+
     where: {
       attendance: {
         semesterId: semesterId,

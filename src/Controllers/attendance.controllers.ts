@@ -22,7 +22,7 @@ const takeAttendance = catchAsync(async (req: Request, res: Response) => {
 const calculateStudentAttendance = catchAsync(
   async (req: Request, res: Response) => {
     const { semesterId, courseCode } = req.body
-    const { studentId } = req.params
+    const { studentId } = req.user
     const data = await attendanceServices.calclateStudentAttendance(
       semesterId,
       courseCode,
