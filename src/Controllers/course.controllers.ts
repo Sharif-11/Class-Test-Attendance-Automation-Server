@@ -1,6 +1,7 @@
 import { Course } from '@prisma/client'
 import { Request, Response } from 'express'
 import httpStatus from 'http-status'
+import { TeacherWithoutPassword } from '../Interfaces/user.interface'
 import { courseServices } from '../Services/courses.services'
 import { sendSuccessResponse } from '../Services/response.services'
 import catchAsync from '../Shared/catchAsync'
@@ -48,7 +49,7 @@ const getAllCourses = catchAsync(async (req: Request, res: Response) => {
   })
 })
 const getCoursesOfTeacher = catchAsync(async (req: Request, res: Response) => {
-  const { teacherId } = req.user
+  const { teacherId } = req.user as TeacherWithoutPassword
   const data = await courseServices.getCoursesOfTeacher(teacherId)
   sendSuccessResponse<typeof data>(res, {
     statusCode: httpStatus.OK,

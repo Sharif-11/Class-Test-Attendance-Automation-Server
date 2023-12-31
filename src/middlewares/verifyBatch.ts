@@ -1,9 +1,10 @@
 import { RequestHandler } from 'express'
 import httpStatus from 'http-status'
 import { ErrorResponse } from '../Interfaces/responses.interfaces'
+import { StudentWithoutPassword } from '../Interfaces/user.interface'
 
 const verifyBatch: RequestHandler = async (req, res, next) => {
-  const { batch } = req.user
+  const { batch } = req.user as StudentWithoutPassword
   const semesterBatch =
     req.params?.semesterId?.substring(0, 4) ||
     req.body?.semesterId?.substring(0, 4)

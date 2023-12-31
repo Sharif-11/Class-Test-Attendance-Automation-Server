@@ -1,11 +1,12 @@
 import { RequestHandler } from 'express'
 import httpStatus from 'http-status'
 import { ErrorResponse } from '../Interfaces/responses.interfaces'
+import { TeacherWithoutPassword } from '../Interfaces/user.interface'
 import prisma from '../Shared/prisma'
 
 const verifyCtPermission: RequestHandler = async (req, res, next) => {
   const { classTestId } = req.params || req.body
-  const { teacherId } = req.user
+  const { teacherId } = req.user as TeacherWithoutPassword
   const existingCt = await prisma.class_Test.findFirst({
     where: { classTestId },
   })

@@ -1,6 +1,7 @@
 import { Semester } from '@prisma/client'
 import { Request, Response } from 'express'
 import httpStatus from 'http-status'
+import { StudentWithoutPassword } from '../Interfaces/user.interface'
 import { sendSuccessResponse } from '../Services/response.services'
 import { semesterServices } from '../Services/semester.services'
 import catchAsync from '../Shared/catchAsync'
@@ -50,8 +51,8 @@ const deleteSemester = catchAsync(async (req: Request, res: Response) => {
 })
 const getSemestersOfStudent = catchAsync(
   async (req: Request, res: Response) => {
-    const { id } = req.user
-    const data = await semesterServices.getSemesterOfStudent(id)
+    const { studentId } = req.user as StudentWithoutPassword
+    const data = await semesterServices.getSemesterOfStudent(studentId)
     sendSuccessResponse<Semester[]>(res, {
       statusCode: httpStatus.OK,
       success: true,

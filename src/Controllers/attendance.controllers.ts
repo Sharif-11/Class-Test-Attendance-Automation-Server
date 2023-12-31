@@ -1,5 +1,6 @@
 import { Request, Response } from 'express'
 import httpStatus from 'http-status'
+import { StudentWithoutPassword } from '../Interfaces/user.interface'
 import { attendanceServices } from '../Services/attendance.services'
 import { sendSuccessResponse } from '../Services/response.services'
 import catchAsync from '../Shared/catchAsync'
@@ -22,7 +23,7 @@ const takeAttendance = catchAsync(async (req: Request, res: Response) => {
 const calculateStudentAttendance = catchAsync(
   async (req: Request, res: Response) => {
     const { semesterId, courseCode } = req.body
-    const { studentId } = req.user
+    const { studentId } = req.user as StudentWithoutPassword
     const data = await attendanceServices.calclateStudentAttendance(
       semesterId,
       courseCode,

@@ -3,6 +3,7 @@ import { Request, Response } from 'express'
 import httpStatus from 'http-status'
 import XLSX from 'xlsx'
 import { ExcelMark } from '../Interfaces/ClassTestMarks.interface'
+import { StudentWithoutPassword } from '../Interfaces/user.interface'
 import { classTestServices } from '../Services/ct.services'
 import { sendSuccessResponse } from '../Services/response.services'
 import catchAsync from '../Shared/catchAsync'
@@ -56,7 +57,7 @@ const evaluateCt = catchAsync(async (req: Request, res: Response) => {
 })
 const getAllCtResult = catchAsync(async (req: Request, res: Response) => {
   const { semesterId, courseCode } = req.body
-  const { studentId } = req.user
+  const { studentId } = req.user as StudentWithoutPassword
   const data = await classTestServices.getAllCtResult(
     semesterId,
     courseCode,
