@@ -59,18 +59,8 @@ export const validateUpdateCourse = [
   validationErrorHandler('Course validation failed'),
 ]
 
-// Validation for getCoursesOfTeacher controller
-const validateGetCoursesOfTeacher = [
-  param('teacherId')
-    .isString()
-    .withMessage('Teacher ID must be a string')
-    .matches(/^[A-Z]{3}-\d{4}$/)
-    .withMessage('Invalid Teacher ID format'),
-  validationErrorHandler('Teacher validation failed'),
-]
 export const courseValidators = {
   validateCreateCourse,
   validateDeleteCourse,
-  validateGetCoursesOfTeacher,
   validateUpdateCourse,
 }

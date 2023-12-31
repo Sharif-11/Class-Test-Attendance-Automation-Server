@@ -48,8 +48,8 @@ const getAllCourses = catchAsync(async (req: Request, res: Response) => {
   })
 })
 const getCoursesOfTeacher = catchAsync(async (req: Request, res: Response) => {
-  const { teacherId } = req.params
-  const data = await courseServices.getCoursesOfTeacher(teacherId)
+  const { id } = req.user
+  const data = await courseServices.getCoursesOfTeacher(id)
   sendSuccessResponse<typeof data>(res, {
     statusCode: httpStatus.OK,
     success: true,
