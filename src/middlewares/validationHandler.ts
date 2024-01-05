@@ -1,5 +1,5 @@
 import { RequestHandler } from 'express'
-import { ValidationError, validationResult } from 'express-validator'
+import { validationResult } from 'express-validator'
 import httpStatus from 'http-status'
 import { ErrorMessage } from '../Interfaces/responses.interfaces'
 
@@ -12,9 +12,10 @@ const validationErrorHandler = (message: string) => {
     const errorMessages: ErrorMessage[] = []
     if (!errors.isEmpty()) {
       for (const error of errors.array()) {
-        console.log(error)
-        const { msg } = error as ValidationError
-        errorMessages.push({ path: '', message: msg })
+        if (error.type === 'field') {
+          const { msg, path } = error
+          errorMessages.push({ path, message: msg })
+        }
       }
       res
         .status(httpStatus.BAD_REQUEST)

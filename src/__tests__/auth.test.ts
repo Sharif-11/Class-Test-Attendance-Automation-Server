@@ -36,6 +36,7 @@ describe('POST /student/login', () => {
 
     expect(response.status).toBe(200)
     expect(response.body.success).toBe(true)
+    expect(response.body.data).toBeDefined()
     expect(response.body.data).toHaveProperty('token')
   })
 
