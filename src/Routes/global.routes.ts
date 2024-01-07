@@ -1,5 +1,5 @@
 import express from 'express'
-import attendanceRoutes from './attendance.route'
+import attendanceRoutes from './attendance.routes'
 import authRoutes from './auth.routes'
 import courseRoutes from './course.routes'
 import ctRoutes from './ct.routes'

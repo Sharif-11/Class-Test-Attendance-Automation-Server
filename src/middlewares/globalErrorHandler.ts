@@ -8,6 +8,7 @@ import { knownRequestHandler } from './prismaErrorHandler'
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const globalErrorHandler: ErrorRequestHandler = (error, req, res, next) => {
   if (error instanceof ApiError) {
+    console.log(error)
     const errorResponse: ErrorResponse = {
       statusCode: error.statusCode,
       success: false,
@@ -20,7 +21,8 @@ const globalErrorHandler: ErrorRequestHandler = (error, req, res, next) => {
       ],
       stack: error.stack,
     }
-    res.status(400).json(errorResponse)
+    console.log(errorResponse)
+    res.status(error.statusCode).json(errorResponse)
   } else if (error instanceof Prisma.PrismaClientKnownRequestError) {
     const { message, path } = knownRequestHandler(error)
     const errorResponse: ErrorResponse = {

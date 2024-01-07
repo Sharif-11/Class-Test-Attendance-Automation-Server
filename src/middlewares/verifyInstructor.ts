@@ -1,10 +1,11 @@
+import { Teacher } from '@prisma/client'
 import { RequestHandler } from 'express'
 import httpStatus from 'http-status'
 import { ErrorResponse } from '../Interfaces/responses.interfaces'
 import prisma from '../Shared/prisma'
 
 const verifyInstructor: RequestHandler = async (req, res, next) => {
-  const { teacherId } = req.user
+  const { teacherId } = req.user as Partial<Teacher>
   const { semesterId } = req.body || req.params
   const { courseCode } = req.body || req.params
   const isInstructor = await prisma.semester_Courses.findFirst({

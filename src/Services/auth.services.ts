@@ -24,7 +24,7 @@ const teacherLogin = async (teacherId: string, password: string) => {
   })
   if (
     !existingTeacher ||
-    comparePasswords(password, existingTeacher.password)
+    !comparePasswords(password, existingTeacher.password)
   ) {
     throw new ApiError(httpStatus.UNAUTHORIZED, 'Invalid credentials')
   }
