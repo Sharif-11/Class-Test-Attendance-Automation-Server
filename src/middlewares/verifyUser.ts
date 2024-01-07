@@ -8,7 +8,8 @@ import config from '../config'
 import ApiError from '../errors/ApiError'
 const verifyUser = (...roles: Role[]) => {
   const verifyUserMiddleware: RequestHandler = async (req, res, next) => {
-    const token = req.headers.authorization?.split(' ')[1]
+    const token =
+      req.headers.authorization?.split(' ')[1] || req?.cookies?.token
     if (!token) {
       const errorResponse: ErrorResponse = {
         statusCode: 401,
@@ -20,7 +21,10 @@ const verifyUser = (...roles: Role[]) => {
       jwt.verify(
         token,
         config.jwtSecret as jwt.Secret,
-        async (err, decoded) => {
+        async (
+          err: jwt.VerifyErrors | null,
+          decoded: jwt.JwtPayload | unknown,
+        ) => {
           if (err) {
             const errorResponse: ErrorResponse = {
               statusCode: 401,
