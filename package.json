@@ -13,7 +13,8 @@
     "lint:prettier": "yarn lint:check && yarn prettier:check",
     "test": "jest",
     "mongoose": "yarn add mongoose && yarn add -D @types/mongoose",
-    "prisma": "yarn add -D prisma && yarn add @prisma/client"
+    "prisma": "yarn add -D prisma && yarn add @prisma/client",
+    "build": "yarn tsc"
   },
   "lint-staged": {
     "src/**/*.ts": "yarn lint:prettier"

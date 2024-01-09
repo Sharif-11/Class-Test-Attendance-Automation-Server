@@ -2,9 +2,9 @@ import cookieParser from 'cookie-parser'
 import cors from 'cors'
 import express, { Application } from 'express'
 import swaggerUi from 'swagger-ui-express'
-import swaggerDocument from '../swagger.json'
 import globalRoutes from './Routes/global.routes'
 import globalErrorHandler from './middlewares/globalErrorHandler'
+import swaggerDocument from './swagger.json'
 const app: Application = express()
 app.use(cors())
 app.use(express.json())
