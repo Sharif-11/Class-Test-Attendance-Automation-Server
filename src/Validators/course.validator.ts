@@ -4,6 +4,7 @@ import validationErrorHandler from '../middlewares/validationHandler'
 // Validation for createCourse controller
 const validateCreateCourse = [
   body('courseCode')
+    .trim()
     .isString()
     .withMessage('Course code must be a string')
     .isLength({ min: 7, max: 7 })
@@ -12,12 +13,14 @@ const validateCreateCourse = [
     .withMessage('Invalid course code format.'),
 
   body('courseTitle')
+    .trim()
     .isString()
     .withMessage('Course title must be a string')
     .isLength({ max: 48 })
     .withMessage('Course title must be at most 48 characters'),
 
   body('credit')
+    .trim()
     .isFloat()
     .withMessage('Credit must be a floating-point number'),
   validationErrorHandler('Course validation failed'),
@@ -26,6 +29,7 @@ const validateCreateCourse = [
 // Validation for deleteCourse controller
 const validateDeleteCourse = [
   param('courseCode')
+    .trim()
     .isString()
     .withMessage('Course code must be a string')
     .isLength({ min: 7, max: 7 })
@@ -38,6 +42,7 @@ const validateDeleteCourse = [
 // Validation for updateCourse controller
 export const validateUpdateCourse = [
   param('courseCode')
+    .trim()
     .isString()
     .withMessage('Course code must be a string')
     .isLength({ min: 7, max: 7 })
@@ -46,6 +51,7 @@ export const validateUpdateCourse = [
     .withMessage('Invalid course code format.'),
 
   body('courseTitle')
+    .trim()
     .optional()
     .isString()
     .withMessage('Course title must be a string')
@@ -53,6 +59,7 @@ export const validateUpdateCourse = [
     .withMessage('Course title must be at most 48 characters'),
 
   body('credit')
+    .trim()
     .optional()
     .isFloat()
     .withMessage('Credit must be a floating-point number'),

@@ -22,7 +22,7 @@ const teacherLogin: RequestHandler = catchAsync(async (req, res) => {
   const { teacherId, password } = req.body
   const teacher = await authServices.teacherLogin(teacherId, password)
   const token = generateToken(teacherId, 'teacher')
-  res.cookie('token', token, { httpOnly: true, maxAge: 30 * 24 * 3600 })
+  res.cookie('token', token, { httpOnly: true })
   sendSuccessResponse<Omit<Teacher, 'password'> & { token: string }>(res, {
     statusCode: httpStatus.OK,
     success: true,

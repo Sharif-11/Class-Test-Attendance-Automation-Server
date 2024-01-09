@@ -29,9 +29,7 @@ const updateCourse = catchAsync(async (req: Request, res: Response) => {
   const { courseCode } = req.params
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const { courseCode: courseId, ...others } = req.body
-  console.log(courseCode)
   const data = await courseServices.updateCourse(courseCode, others)
-  console.log(data)
   sendSuccessResponse<Course>(res, {
     statusCode: httpStatus.OK,
     success: true,

@@ -23,7 +23,6 @@ const createTeacher = catchAsync(async (req: Request, res: Response) => {
 })
 const createStudent = catchAsync(async (req: Request, res: Response) => {
   const { password, ...others } = req.body
-  console.log(others)
   const result = await userServices.createStudent({
     ...others,
     password: hashPassword(password),
@@ -37,6 +36,17 @@ const createStudent = catchAsync(async (req: Request, res: Response) => {
     message: 'Student created successfully',
   })
 })
+const deleteTeacher = catchAsync(async (req: Request, res: Response) => {
+  const { teacherId } = req.params
+  const result = await userServices.deleteTeacher(teacherId)
+
+  sendSuccessResponse<Omit<Teacher, 'password'>>(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    data: result,
+    message: 'Teacher deleted successfully',
+  })
+})
 const makeHead = catchAsync(async (req: Request, res: Response) => {
   const { teacherId } = req.params
   const result = await userServices.makeHead(teacherId)
@@ -48,4 +58,9 @@ const makeHead = catchAsync(async (req: Request, res: Response) => {
   })
 })
 
-export const userControllers = { createTeacher, createStudent, makeHead }
+export const userControllers = {
+  createTeacher,
+  createStudent,
+  makeHead,
+  deleteTeacher,
+}

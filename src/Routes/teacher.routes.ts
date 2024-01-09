@@ -7,6 +7,7 @@ import imageUploader from '../middlewares/imageUploade.middleware'
 import verifyHead from '../middlewares/verifyHead'
 import verifyUser from '../middlewares/verifyUser'
 const teacherRoutes = express.Router()
+teacherRoutes.delete('/:teacherId', userControllers.deleteTeacher)
 teacherRoutes.post(
   '/signup',
   multerConfig.uploadImage.single('profileImage'),

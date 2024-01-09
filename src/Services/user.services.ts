@@ -166,6 +166,12 @@ const deleteTeacher = async (teacherId: string) => {
       'Teacher with this id does not exist',
     )
   }
+  if (existingTeacher.deptHead) {
+    throw new ApiError(
+      httpStatus.BAD_REQUEST,
+      'Department Head can not be deleted',
+    )
+  }
   const deletedTeacher = await prisma.teacher.delete({
     where: { teacherId },
     select: teacherSelect,

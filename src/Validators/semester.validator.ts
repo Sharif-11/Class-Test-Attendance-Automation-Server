@@ -4,12 +4,14 @@ import validationErrorHandler from '../middlewares/validationHandler'
 // Validation for createSemester controller
 const validateCreateSemester = [
   body('semesterTitle')
+    .trim()
     .isString()
     .withMessage('Semester title must be a string')
     .matches(/^(Level-[1-4] Term-[1-2])$/)
     .withMessage('Invalid semester title format'),
 
   body('batch')
+    .trim()
     .isString()
     .withMessage('Batch must be a string')
     .isLength({ min: 4, max: 4 })
@@ -18,6 +20,7 @@ const validateCreateSemester = [
     .withMessage('Batch must be numeric'),
 
   body('session')
+    .trim()
     .isString()
     .withMessage('Session must be a string')
     .matches(/^\d{4}-\d{4}$/)
@@ -35,6 +38,7 @@ const validateCreateSemester = [
 // Validation for updateSemester controller
 const validateUpdateSemester = [
   param('semesterId')
+    .trim()
     .isString()
     .withMessage('Semester ID must be a string')
     .isLength({ min: 5, max: 5 })
@@ -43,6 +47,7 @@ const validateUpdateSemester = [
     .withMessage('Semester ID must contain only digits'),
 
   body('semesterTitle')
+    .trim()
     .optional()
     .isString()
     .withMessage('Semester title must be a string')
@@ -50,6 +55,7 @@ const validateUpdateSemester = [
     .withMessage('Invalid semester title format'),
 
   body('batch')
+    .trim()
     .optional()
     .isString()
     .withMessage('Batch must be a string')
@@ -58,6 +64,7 @@ const validateUpdateSemester = [
     .isNumeric()
     .withMessage('Batch must be numeric'),
   body('session')
+    .trim()
     .optional()
     .isString()
     .withMessage('Session must be a string')
@@ -76,6 +83,7 @@ const validateUpdateSemester = [
 // Validation for deleteSemester controller
 const validateDeleteSemester = [
   param('semesterId')
+    .trim()
     .isString()
     .withMessage('Semester ID must be a string')
     .isLength({ min: 5, max: 5 })
@@ -88,6 +96,7 @@ const validateDeleteSemester = [
 // Validation for getSemesterCourses controller
 const validateGetSemesterCourses = [
   param('semesterId')
+    .trim()
     .isString()
     .withMessage('Semester ID must be a string')
     .isLength({ min: 5, max: 5 })
@@ -100,6 +109,7 @@ const validateGetSemesterCourses = [
 // Validation for assignCourse controller
 const validateAssignCourse = [
   param('semesterId')
+    .trim()
     .isString()
     .withMessage('Semester ID must be a string')
     .isLength({ min: 5, max: 5 })
@@ -108,12 +118,14 @@ const validateAssignCourse = [
     .withMessage('Semester ID must contain only digits'),
 
   body('teacherId')
+    .trim()
     .isString()
     .withMessage('Teacher ID must be a string')
     .matches(/^[A-Z]{3}-\d{4}$/)
     .withMessage('Invalid Teacher ID format'),
 
   body('courseCode')
+    .trim()
     .isString()
     .withMessage('Course code must be a string')
     .isLength({ min: 7, max: 7 })
