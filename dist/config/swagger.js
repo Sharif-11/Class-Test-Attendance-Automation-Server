@@ -1,4 +1,4 @@
-"use strict";
+'use strict'
 // // swagger.ts
 // import swaggerJsdoc from 'swagger-jsdoc'
 // const options = {

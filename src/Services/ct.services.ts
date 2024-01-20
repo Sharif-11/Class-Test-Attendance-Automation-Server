@@ -177,6 +177,21 @@ const evaluateCt = async (classTestId: string, marksData: ExcelMark[]) => {
   })
   return transactionResult
 }
+const cancelEvaluation = async (classTestId: string) => {
+  await getCt(classTestId)
+  const transactionResult = await prisma.$transaction(async tx => {
+    const deleteMarks = await tx.mark.deleteMany({ where: { classTestId } })
+    if (!deleteMarks) {
+      throw new ApiError(httpStatus.BAD_REQUEST, 'Evaluation cancelling failed')
+    }
+    const updatedCt = await tx.class_Test.update({
+      where: { classTestId },
+      data: { evaluated: false },
+    })
+    return updatedCt
+  })
+  return transactionResult
+}
 const getAllCtResult = async (
   semesterId: string,
   courseCode: string,
@@ -266,4 +281,5 @@ export const classTestServices = {
   getAllCtResult,
   getCtResultForTeacher,
   calculateFinalResult,
+  cancelEvaluation,
 }

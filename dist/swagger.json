@@ -1,632 +1,632 @@
 {
-    "openapi": "3.0.0",
-    "info": {
-        "title": "Class Test Attendance Automation",
-        "description": "This is a software project ",
-        "version": "1.0.11"
-    },
-    "servers": [
-        {
-            "url": "http://localhost:5000/api/v1"
-        }
-    ],
-    "paths": {
-        "/student/signup": {
-            "post": {
-                "tags": ["Student"],
-                "summary": "Sign up a new student",
-                "requestBody": {
-                    "required": true,
-                    "content": {
-                        "multipart/form-data": {
-                            "schema": {
-                                "$ref": "#/components/schemas/Student"
-                            }
-                        }
-                    }
-                },
-                "responses": {
-                    "200": {
-                        "description": "Successful response",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/StudentResponse"
-                                }
-                            }
-                        }
-                    },
-                    "400": {
-                        "description": "Student validation failed",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/StudentBadResponse"
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        },
-        "/student/login": {
-            "post": {
-                "tags": ["Student"],
-                "summary": "Student Login",
-                "requestBody": {
-                    "required": true,
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "$ref": "#/components/schemas/StudentLoginInput"
-                            }
-                        }
-                    }
-                },
-                "responses": {
-                    "200": {
-                        "description": "Successful response",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/StudentResponse"
-                                }
-                            }
-                        }
-                    },
-                    "401": {
-                        "description": "Student validation failed",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/StudentLoginBadResponse"
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        },
-        "/teacher/signup": {
-            "post": {
-                "tags": ["Teacher"],
-                "summary": "Sign up a new teacher",
-                "requestBody": {
-                    "required": true,
-                    "content": {
-                        "multipart/form-data": {
-                            "schema": {
-                                "$ref": "#/components/schemas/Teacher"
-                            }
-                        }
-                    }
-                },
-                "responses": {
-                    "200": {
-                        "description": "Successful response",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/TeacherResponse"
-                                }
-                            }
-                        }
-                    },
-                    "400": {
-                        "description": "Teacher validation failed",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/TeacherBadResponse"
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        },
-        "/teacher/login": {
-            "post": {
-                "tags": ["Teacher"],
-                "summary": "Teacher Login",
-                "requestBody": {
-                    "required": true,
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "$ref": "#/components/schemas/TeacherLogin"
-                            }
-                        }
-                    }
-                },
-                "responses": {
-                    "200": {
-                        "description": "Successful response",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/TeacherLoginResponse"
-                                }
-                            }
-                        }
-                    },
-                    "401": {
-                        "description": "Teacher login validation failed",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/TeacherLoginBadResponse"
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        },
-        "/courses": {
-            "post": {
-                "tags": ["Course"],
-                "summary": "Create new Course",
-                "requestBody": {
-                    "required": true,
-                    "content": {
-                        "application/json": {
-                            "schema": { "$ref": "#/components/schemas/Course" }
-                        }
-                    }
-                },
-                "responses": {
-                    "200": {
-                        "description": "Successful response",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/CourseResponse"
-                                }
-                            }
-                        }
-                    },
-                    "401": {
-                        "description": "Teacher login validation failed",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/CourseBadResponse"
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        }
-    },
-    "components": {
-        "schemas": {
-            "Student": {
-                "type": "object",
-                "properties": {
-                    "studentId": {
-                        "type": "string",
-                        "description": "Unique identifier for the student"
-                    },
-                    "name": {
-                        "type": "string",
-                        "description": "Name of the student"
-                    },
-                    "email": {
-                        "type": "string",
-                        "format": "email",
-                        "description": "Email address of the student"
-                    },
-                    "password": {
-                        "type": "string",
-                        "description": "Password for the student"
-                    },
-                    "batch": {
-                        "type": "string",
-                        "description": "Batch of the student"
-                    },
-                    "session": {
-                        "type": "string",
-                        "description": "Session of the student"
-                    },
-                    "department": {
-                        "type": "string",
-                        "description": "Department of the student"
-                    },
-                    "profileImage": {
-                        "type": "string",
-                        "format": "binary",
-                        "description": "Image file for the student's profile"
-                    }
-                },
-                "required": [
-                    "studentId",
-                    "name",
-                    "email",
-                    "password",
-                    "batch",
-                    "session",
-                    "department",
-                    "profileImage"
-                ]
-            },
-            "Teacher": {
-                "type": "object",
-                "properties": {
-                    "teacherId": {
-                        "type": "string",
-                        "description": "Unique identifier for the teacher"
-                    },
-                    "name": {
-                        "type": "string",
-                        "description": "Name of the teacher"
-                    },
-                    "email": {
-                        "type": "string",
-                        "description": "Email address of the teacher",
-                        "format": "email"
-                    },
-                    "department": {
-                        "type": "string",
-                        "description": "Department of the teacher"
-                    },
-                    "designation": {
-                        "type": "string",
-                        "description": "Designation of the teacher"
-                    },
-                    "specialization": {
-                        "type": "string",
-                        "nullable": true,
-                        "description": "Specialization of the teacher (optional)"
-                    },
-                    "password": {
-                        "type": "string",
-                        "description": "Password for the teacher"
-                    },
-                    "profileImage": {
-                        "type": "string",
-                        "format": "binary",
-                        "description": "Image file for the teacher's profile"
-                    },
-                    "deptHead": {
-                        "type": "boolean",
-                        "description": "Indicates if the teacher is a department head",
-                        "default": false
-                    }
-                },
-                "required": [
-                    "teacherId",
-                    "name",
-                    "email",
-                    "department",
-                    "designation",
-                    "password",
-                    "profileImage"
-                ]
-            },
-            "StudentResponse": {
-                "type": "object",
-                "properties": {
-                    "statusCode": {
-                        "type": "number",
-                        "example": 200
-                    },
-                    "success": {
-                        "type": "boolean",
-                        "example": true
-                    },
-                    "message": {
-                        "type": "string",
-                        "nullable": true,
-                        "example": "Student logged in successfully"
-                    },
-                    "data": {
-                        "type": "object",
-                        "example": {
-                            "studentId": "1804002",
-                            "name": "Tanvir Rahman",
-                            "email": "u1804002@student.cuet.ac.bd",
-                            "batch": "2018",
-                            "session": "2018-2019",
-                            "department": "CSE",
-                            "role": "student",
-                            "profileImage": "https://res.cloudinary.com/dqnw5qaoq/image/upload/v1703407645/yh20sfqfqogyqcr2sngb.webp",
-                            "createdAt": "2023-12-24T08:47:27.444Z",
-                            "updatedAt": "2023-12-24T08:47:27.444Z",
-                            "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.iLCJyb2xlIjoic3R1ZGVudCIsImlhdCI6MTcwNDYwMzA2MiwiZXhwIjoxNzM2MTYwNjYyfQ.FLTkLRja0Y0kgMxvx8RRWh_WpTcWd7OoPfSoJ6IBCG4"
-                        }
-                    }
-                },
-                "required": ["statusCode", "success", "message", "data"]
-            },
-            "TeacherResponse": {
-                "type": "object",
-                "properties": {
-                    "statusCode": {
-                        "type": "number",
-                        "example": 200
-                    },
-                    "success": {
-                        "type": "boolean",
-                        "example": true
-                    },
-                    "message": {
-                        "type": "string",
-                        "nullable": true,
-                        "example": "Teacher created successfully"
-                    },
-                    "data": {
-                        "type": "object",
-                        "example": {
-                            "teacherId": "CSE-1208",
-                            "name": "Mir Md Saki Kawsar",
-                            "email": "saki.kawsar@gmail.com",
-                            "department": "CSE",
-                            "role": "teacher",
-                            "designation": "Assistant Professor",
-                            "specialization": "",
-                            "profileImage": "https://res.cloudinary.com/dqnw5qaoq/image/upload/v1704560026/sbll3yij7euz72stmrce.jpg",
-                            "deptHead": false,
-                            "createdAt": "2024-01-06T16:53:50.623Z",
-                            "updatedAt": "2024-01-06T16:53:50.623Z"
-                        }
-                    }
-                },
-                "required": ["statusCode", "success", "message", "data"]
-            },
-            "StudentBadResponse": {
-                "type": "object",
-                "properties": {
-                    "statusCode": {
-                        "type": "number",
-                        "example": 400
-                    },
-                    "success": {
-                        "type": "boolean",
-                        "example": false
-                    },
-                    "message": {
-                        "type": "string",
-                        "nullable": true,
-                        "example": "Student validation failed"
-                    },
-                    "errorMessages": {
-                        "type": "array",
-                        "example": [
-                            {
-                                "path": "session",
-                                "message": "Invalid session format, it should be in the form of YYYY-YYYY"
-                            }
-                        ]
-                    }
-                },
-                "required": ["statusCode", "success", "message", "data"]
-            },
-            "TeacherBadResponse": {
-                "type": "object",
-                "properties": {
-                    "statusCode": {
-                        "type": "number",
-                        "example": 400
-                    },
-                    "success": {
-                        "type": "boolean",
-                        "example": false
-                    },
-                    "message": {
-                        "type": "string",
-                        "nullable": true,
-                        "example": "Teacher validation failed"
-                    },
-                    "errorMessages": {
-                        "type": "array",
-                        "example": [
-                            {
-                                "path": "teacherId",
-                                "message": "Invalid Teacher ID format"
-                            }
-                        ]
-                    }
-                },
-                "required": ["statusCode", "success", "message", "data"]
-            },
-            "StudentLoginInput": {
-                "type": "object",
-                "properties": {
-                    "studentId": {
-                        "type": "string",
-                        "example": "1804001"
-                    },
-                    "password": { "type": "string", "example": "u1804001" }
-                },
-                "required": ["studentId", "password"]
-            },
-            "StudentLoginBadResponse": {
-                "type": "object",
-                "properties": {
-                    "statusCode": {
-                        "type": "number",
-                        "example": 400
-                    },
-                    "success": {
-                        "type": "boolean",
-                        "example": false
-                    },
-                    "message": {
-                        "type": "string",
-                        "nullable": true,
-                        "example": "Student login validation failed"
-                    },
-                    "errorMessages": {
-                        "type": "array",
-                        "example": [
-                            {
-                                "path": "studentId",
-                                "message": "Student ID must be 7 characters"
-                            }
-                        ]
-                    }
-                },
-                "required": ["statusCode", "success", "message", "data"]
-            },
-            "TeacherLogin": {
-                "type": "object",
-                "properties": {
-                    "teacherId": {
-                        "type": "string",
-                        "example": "CSE-1804"
-                    },
-                    "password": { "type": "string", "example": "123456forhad" }
-                },
-                "required": ["teacherId", "password"]
-            },
-            "TeacherLoginResponse": {
-                "type": "object",
-                "properties": {
-                    "statusCode": {
-                        "type": "number",
-                        "example": 200
-                    },
-                    "success": {
-                        "type": "boolean",
-                        "example": true
-                    },
-                    "message": {
-                        "type": "string",
-                        "nullable": true,
-                        "example": "Teacher logged in successfully"
-                    },
-                    "data": {
-                        "type": "object",
-                        "example": {
-                            "teacherId": "CSE-1804",
-                            "name": "Shafiul Alam Forhad",
-                            "email": "forhad@cuet.bd",
-                            "department": "CSE",
-                            "designation": "Assistant Professor",
-                            "specialization": null,
-                            "role": "teacher",
-                            "profileImage": "https://res.cloudinary.com/dqnw5qaoq/image/upload/v1703406659/ccnlg3vmzc5fjzez23h4.jpg",
-                            "deptHead": true,
-                            "createdAt": "2023-12-24T08:31:01.400Z",
-                            "updatedAt": "2023-12-31T11:49:12.267Z",
-                            "token": "eyJhbGciOisInR5cCI6IkpXVCJ9.eyJpZCI6IkNTRS0xODA0Iiwicm9sZSI6InRlYWNoZXIiLCJpYXQiOjE3MDQ2MDQ1MjUsImV4cCI6MTczNjE2MjEyNX0.8BbaSuuoo4g3P-9T_AdmoAzD9R08xtuQOZTK-JJ3Nbw"
-                        }
-                    }
-                },
-                "required": ["statusCode", "success", "message", "data"]
-            },
-            "TeacherLoginBadResponse": {
-                "type": "object",
-                "properties": {
-                    "statusCode": {
-                        "type": "number",
-                        "example": 400
-                    },
-                    "success": {
-                        "type": "boolean",
-                        "example": false
-                    },
-                    "message": {
-                        "type": "string",
-                        "nullable": true,
-                        "example": "Teacher login validation failed"
-                    },
-                    "errorMessages": {
-                        "type": "array",
-                        "example": [
-                            {
-                                "path": "",
-                                "message": "Invalid credentials"
-                            }
-                        ]
-                    }
-                },
-                "required": ["statusCode", "success", "message", "data"]
-            },
-            "Course": {
-                "type": "object",
-                "properties": {
-                    "courseCode": {
-                        "type": "string",
-                        "description": "Unique identifier for the course",
-                        "example": "CSE-141"
-                    },
-                    "courseTitle": {
-                        "type": "string",
-                        "description": "Title of the course",
-                        "example": "Structured Programming"
-                    },
-                    "credit": {
-                        "type": "number",
-                        "description": "Credit hours for the course",
-                        "example": 3.0
-                    }
-                },
-                "required": ["courseCode", "courseTitle", "credit"]
-            },
-            "CourseResponse": {
-                "type": "object",
-                "properties": {
-                    "statusCode": {
-                        "type": "number",
-                        "example": 200
-                    },
-                    "success": {
-                        "type": "boolean",
-                        "example": true
-                    },
-                    "message": {
-                        "type": "string",
-                        "nullable": true,
-                        "example": "Course created successfully"
-                    },
-                    "data": {
-                        "type": "object",
-                        "example": {
-                            "courseCode": "CSE-147",
-                            "courseTitle": "Structured Programming",
-                            "credit": 3,
-                            "createdAt": "2024-01-07T06:50:20.866Z",
-                            "updatedAt": "2024-01-07T06:50:20.866Z"
-                        }
-                    }
-                },
-                "required": ["statusCode", "success", "message", "data"]
-            },
-            "CourseBadResponse": {
-                "type": "object",
-                "properties": {
-                    "statusCode": {
-                        "type": "number",
-                        "example": 400
-                    },
-                    "success": {
-                        "type": "boolean",
-                        "example": false
-                    },
-                    "message": {
-                        "type": "string",
-                        "nullable": true,
-                        "example": "Course validation failed"
-                    },
-                    "errorMessages": {
-                        "type": "array",
-                        "example": [
-                            {
-                                "path": "courseCode",
-                                "message": "Course code must be 7 characters"
-                            },
-                            {
-                                "path": "courseCode",
-                                "message": "Invalid course code format."
-                            }
-                        ]
-                    }
-                },
-                "required": ["statusCode", "success", "message", "data"]
-            }
-        }
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Class Test Attendance Automation",
+    "description": "This is a software project ",
+    "version": "1.0.11"
+  },
+  "servers": [
+    {
+      "url": "http://localhost:5000/api/v1"
     }
+  ],
+  "paths": {
+    "/student/signup": {
+      "post": {
+        "tags": ["Student"],
+        "summary": "Sign up a new student",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "$ref": "#/components/schemas/Student"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StudentResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Student validation failed",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StudentBadResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/student/login": {
+      "post": {
+        "tags": ["Student"],
+        "summary": "Student Login",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/StudentLoginInput"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StudentResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Student validation failed",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StudentLoginBadResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/teacher/signup": {
+      "post": {
+        "tags": ["Teacher"],
+        "summary": "Sign up a new teacher",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "$ref": "#/components/schemas/Teacher"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TeacherResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Teacher validation failed",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TeacherBadResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/teacher/login": {
+      "post": {
+        "tags": ["Teacher"],
+        "summary": "Teacher Login",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/TeacherLogin"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TeacherLoginResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Teacher login validation failed",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TeacherLoginBadResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/courses": {
+      "post": {
+        "tags": ["Course"],
+        "summary": "Create new Course",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/Course" }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CourseResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Teacher login validation failed",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CourseBadResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Student": {
+        "type": "object",
+        "properties": {
+          "studentId": {
+            "type": "string",
+            "description": "Unique identifier for the student"
+          },
+          "name": {
+            "type": "string",
+            "description": "Name of the student"
+          },
+          "email": {
+            "type": "string",
+            "format": "email",
+            "description": "Email address of the student"
+          },
+          "password": {
+            "type": "string",
+            "description": "Password for the student"
+          },
+          "batch": {
+            "type": "string",
+            "description": "Batch of the student"
+          },
+          "session": {
+            "type": "string",
+            "description": "Session of the student"
+          },
+          "department": {
+            "type": "string",
+            "description": "Department of the student"
+          },
+          "profileImage": {
+            "type": "string",
+            "format": "binary",
+            "description": "Image file for the student's profile"
+          }
+        },
+        "required": [
+          "studentId",
+          "name",
+          "email",
+          "password",
+          "batch",
+          "session",
+          "department",
+          "profileImage"
+        ]
+      },
+      "Teacher": {
+        "type": "object",
+        "properties": {
+          "teacherId": {
+            "type": "string",
+            "description": "Unique identifier for the teacher"
+          },
+          "name": {
+            "type": "string",
+            "description": "Name of the teacher"
+          },
+          "email": {
+            "type": "string",
+            "description": "Email address of the teacher",
+            "format": "email"
+          },
+          "department": {
+            "type": "string",
+            "description": "Department of the teacher"
+          },
+          "designation": {
+            "type": "string",
+            "description": "Designation of the teacher"
+          },
+          "specialization": {
+            "type": "string",
+            "nullable": true,
+            "description": "Specialization of the teacher (optional)"
+          },
+          "password": {
+            "type": "string",
+            "description": "Password for the teacher"
+          },
+          "profileImage": {
+            "type": "string",
+            "format": "binary",
+            "description": "Image file for the teacher's profile"
+          },
+          "deptHead": {
+            "type": "boolean",
+            "description": "Indicates if the teacher is a department head",
+            "default": false
+          }
+        },
+        "required": [
+          "teacherId",
+          "name",
+          "email",
+          "department",
+          "designation",
+          "password",
+          "profileImage"
+        ]
+      },
+      "StudentResponse": {
+        "type": "object",
+        "properties": {
+          "statusCode": {
+            "type": "number",
+            "example": 200
+          },
+          "success": {
+            "type": "boolean",
+            "example": true
+          },
+          "message": {
+            "type": "string",
+            "nullable": true,
+            "example": "Student logged in successfully"
+          },
+          "data": {
+            "type": "object",
+            "example": {
+              "studentId": "1804002",
+              "name": "Tanvir Rahman",
+              "email": "u1804002@student.cuet.ac.bd",
+              "batch": "2018",
+              "session": "2018-2019",
+              "department": "CSE",
+              "role": "student",
+              "profileImage": "https://res.cloudinary.com/dqnw5qaoq/image/upload/v1703407645/yh20sfqfqogyqcr2sngb.webp",
+              "createdAt": "2023-12-24T08:47:27.444Z",
+              "updatedAt": "2023-12-24T08:47:27.444Z",
+              "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.iLCJyb2xlIjoic3R1ZGVudCIsImlhdCI6MTcwNDYwMzA2MiwiZXhwIjoxNzM2MTYwNjYyfQ.FLTkLRja0Y0kgMxvx8RRWh_WpTcWd7OoPfSoJ6IBCG4"
+            }
+          }
+        },
+        "required": ["statusCode", "success", "message", "data"]
+      },
+      "TeacherResponse": {
+        "type": "object",
+        "properties": {
+          "statusCode": {
+            "type": "number",
+            "example": 200
+          },
+          "success": {
+            "type": "boolean",
+            "example": true
+          },
+          "message": {
+            "type": "string",
+            "nullable": true,
+            "example": "Teacher created successfully"
+          },
+          "data": {
+            "type": "object",
+            "example": {
+              "teacherId": "CSE-1208",
+              "name": "Mir Md Saki Kawsar",
+              "email": "saki.kawsar@gmail.com",
+              "department": "CSE",
+              "role": "teacher",
+              "designation": "Assistant Professor",
+              "specialization": "",
+              "profileImage": "https://res.cloudinary.com/dqnw5qaoq/image/upload/v1704560026/sbll3yij7euz72stmrce.jpg",
+              "deptHead": false,
+              "createdAt": "2024-01-06T16:53:50.623Z",
+              "updatedAt": "2024-01-06T16:53:50.623Z"
+            }
+          }
+        },
+        "required": ["statusCode", "success", "message", "data"]
+      },
+      "StudentBadResponse": {
+        "type": "object",
+        "properties": {
+          "statusCode": {
+            "type": "number",
+            "example": 400
+          },
+          "success": {
+            "type": "boolean",
+            "example": false
+          },
+          "message": {
+            "type": "string",
+            "nullable": true,
+            "example": "Student validation failed"
+          },
+          "errorMessages": {
+            "type": "array",
+            "example": [
+              {
+                "path": "session",
+                "message": "Invalid session format, it should be in the form of YYYY-YYYY"
+              }
+            ]
+          }
+        },
+        "required": ["statusCode", "success", "message", "data"]
+      },
+      "TeacherBadResponse": {
+        "type": "object",
+        "properties": {
+          "statusCode": {
+            "type": "number",
+            "example": 400
+          },
+          "success": {
+            "type": "boolean",
+            "example": false
+          },
+          "message": {
+            "type": "string",
+            "nullable": true,
+            "example": "Teacher validation failed"
+          },
+          "errorMessages": {
+            "type": "array",
+            "example": [
+              {
+                "path": "teacherId",
+                "message": "Invalid Teacher ID format"
+              }
+            ]
+          }
+        },
+        "required": ["statusCode", "success", "message", "data"]
+      },
+      "StudentLoginInput": {
+        "type": "object",
+        "properties": {
+          "studentId": {
+            "type": "string",
+            "example": "1804001"
+          },
+          "password": { "type": "string", "example": "u1804001" }
+        },
+        "required": ["studentId", "password"]
+      },
+      "StudentLoginBadResponse": {
+        "type": "object",
+        "properties": {
+          "statusCode": {
+            "type": "number",
+            "example": 400
+          },
+          "success": {
+            "type": "boolean",
+            "example": false
+          },
+          "message": {
+            "type": "string",
+            "nullable": true,
+            "example": "Student login validation failed"
+          },
+          "errorMessages": {
+            "type": "array",
+            "example": [
+              {
+                "path": "studentId",
+                "message": "Student ID must be 7 characters"
+              }
+            ]
+          }
+        },
+        "required": ["statusCode", "success", "message", "data"]
+      },
+      "TeacherLogin": {
+        "type": "object",
+        "properties": {
+          "teacherId": {
+            "type": "string",
+            "example": "CSE-1804"
+          },
+          "password": { "type": "string", "example": "123456forhad" }
+        },
+        "required": ["teacherId", "password"]
+      },
+      "TeacherLoginResponse": {
+        "type": "object",
+        "properties": {
+          "statusCode": {
+            "type": "number",
+            "example": 200
+          },
+          "success": {
+            "type": "boolean",
+            "example": true
+          },
+          "message": {
+            "type": "string",
+            "nullable": true,
+            "example": "Teacher logged in successfully"
+          },
+          "data": {
+            "type": "object",
+            "example": {
+              "teacherId": "CSE-1804",
+              "name": "Shafiul Alam Forhad",
+              "email": "forhad@cuet.bd",
+              "department": "CSE",
+              "designation": "Assistant Professor",
+              "specialization": null,
+              "role": "teacher",
+              "profileImage": "https://res.cloudinary.com/dqnw5qaoq/image/upload/v1703406659/ccnlg3vmzc5fjzez23h4.jpg",
+              "deptHead": true,
+              "createdAt": "2023-12-24T08:31:01.400Z",
+              "updatedAt": "2023-12-31T11:49:12.267Z",
+              "token": "eyJhbGciOisInR5cCI6IkpXVCJ9.eyJpZCI6IkNTRS0xODA0Iiwicm9sZSI6InRlYWNoZXIiLCJpYXQiOjE3MDQ2MDQ1MjUsImV4cCI6MTczNjE2MjEyNX0.8BbaSuuoo4g3P-9T_AdmoAzD9R08xtuQOZTK-JJ3Nbw"
+            }
+          }
+        },
+        "required": ["statusCode", "success", "message", "data"]
+      },
+      "TeacherLoginBadResponse": {
+        "type": "object",
+        "properties": {
+          "statusCode": {
+            "type": "number",
+            "example": 400
+          },
+          "success": {
+            "type": "boolean",
+            "example": false
+          },
+          "message": {
+            "type": "string",
+            "nullable": true,
+            "example": "Teacher login validation failed"
+          },
+          "errorMessages": {
+            "type": "array",
+            "example": [
+              {
+                "path": "",
+                "message": "Invalid credentials"
+              }
+            ]
+          }
+        },
+        "required": ["statusCode", "success", "message", "data"]
+      },
+      "Course": {
+        "type": "object",
+        "properties": {
+          "courseCode": {
+            "type": "string",
+            "description": "Unique identifier for the course",
+            "example": "CSE-141"
+          },
+          "courseTitle": {
+            "type": "string",
+            "description": "Title of the course",
+            "example": "Structured Programming"
+          },
+          "credit": {
+            "type": "number",
+            "description": "Credit hours for the course",
+            "example": 3.0
+          }
+        },
+        "required": ["courseCode", "courseTitle", "credit"]
+      },
+      "CourseResponse": {
+        "type": "object",
+        "properties": {
+          "statusCode": {
+            "type": "number",
+            "example": 200
+          },
+          "success": {
+            "type": "boolean",
+            "example": true
+          },
+          "message": {
+            "type": "string",
+            "nullable": true,
+            "example": "Course created successfully"
+          },
+          "data": {
+            "type": "object",
+            "example": {
+              "courseCode": "CSE-147",
+              "courseTitle": "Structured Programming",
+              "credit": 3,
+              "createdAt": "2024-01-07T06:50:20.866Z",
+              "updatedAt": "2024-01-07T06:50:20.866Z"
+            }
+          }
+        },
+        "required": ["statusCode", "success", "message", "data"]
+      },
+      "CourseBadResponse": {
+        "type": "object",
+        "properties": {
+          "statusCode": {
+            "type": "number",
+            "example": 400
+          },
+          "success": {
+            "type": "boolean",
+            "example": false
+          },
+          "message": {
+            "type": "string",
+            "nullable": true,
+            "example": "Course validation failed"
+          },
+          "errorMessages": {
+            "type": "array",
+            "example": [
+              {
+                "path": "courseCode",
+                "message": "Course code must be 7 characters"
+              },
+              {
+                "path": "courseCode",
+                "message": "Invalid course code format."
+              }
+            ]
+          }
+        },
+        "required": ["statusCode", "success", "message", "data"]
+      }
+    }
+  }
 }

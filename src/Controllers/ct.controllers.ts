@@ -58,6 +58,26 @@ const evaluateCt = catchAsync(async (req: Request, res: Response) => {
   })
   // res.status(200).json(marksData)
 })
+const cancelEvaluation = catchAsync(async (req: Request, res: Response) => {
+  const { classTestId } = req.params
+  const data = await classTestServices.cancelEvaluation(classTestId)
+  sendSuccessResponse<typeof data>(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: 'Evaluation cancelled successfully',
+    data,
+  })
+})
+const deleteCt = catchAsync(async (req: Request, res: Response) => {
+  const { classTestId } = req.params
+  const data = await classTestServices.deleteCt(classTestId)
+  sendSuccessResponse<typeof data>(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: 'Class Test deleted successfully',
+    data,
+  })
+})
 const getAllCtResult = catchAsync(async (req: Request, res: Response) => {
   const { semesterId, courseCode } = req.body
   const { studentId } = req.user as StudentWithoutPassword
@@ -106,4 +126,6 @@ export const ctControllers = {
   getAllCt,
   getCtResultForTeacher,
   calculateFinalResult,
+  cancelEvaluation,
+  deleteCt,
 }

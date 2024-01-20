@@ -15,6 +15,13 @@ ctRoutes.post(
   verifyInstructor,
   ctControllers.createCt,
 )
+ctRoutes.delete(
+  '/:classTestId',
+  ctValidators.validateEvaluateCt,
+  verifyUser('teacher'),
+  verifyInstructor,
+  ctControllers.deleteCt,
+)
 ctRoutes.post(
   '/evaluate-ct/:classTestId',
   multerConfig.uploadExcel.single('excelFile'),
@@ -22,6 +29,13 @@ ctRoutes.post(
   verifyUser('teacher'),
   verifyInstructor,
   ctControllers.evaluateCt,
+)
+ctRoutes.post(
+  '/cancel-evaluation/:classTestId',
+  ctValidators.validateEvaluateCt,
+  verifyUser('teacher'),
+  verifyInstructor,
+  ctControllers.cancelEvaluation,
 )
 ctRoutes.get(
   '/results',

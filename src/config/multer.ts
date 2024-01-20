@@ -18,7 +18,7 @@ const fileFilter = (req: Request, file: any, cb: any) => {
     cb(new Error('Only images are allowed!'), false)
   }
 }
-const excelFileFilter = (req, file, cb) => {
+const excelFileFilter = (req: Request, file: any, cb: any) => {
   // Check if the file has the correct MIME type for Excel files
   if (
     file.mimetype === 'application/vnd.ms-excel' ||
