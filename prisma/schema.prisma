@@ -82,6 +82,7 @@ model Semester {
 }
 
 model Semester_Courses {
+  
   semesterId String
   courseCode String
   teacherId  String

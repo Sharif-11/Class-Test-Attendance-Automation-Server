@@ -18,6 +18,18 @@ const fileFilter = (req: Request, file: any, cb: any) => {
     cb(new Error('Only images are allowed!'), false)
   }
 }
+const excelFileFilter = (req, file, cb) => {
+  // Check if the file has the correct MIME type for Excel files
+  if (
+    file.mimetype === 'application/vnd.ms-excel' ||
+    file.mimetype ===
+      'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+  ) {
+    cb(null, true) // Accept the file
+  } else {
+    cb(new Error('Invalid file type. Only Excel files are allowed.'), false)
+  }
+}
 const uploadImage = multer({
   storage,
   fileFilter,
@@ -26,5 +38,11 @@ const uploadImage = multer({
   },
 })
 const excelStorage = multer.memoryStorage()
-const uploadExcel = multer({ storage: excelStorage })
+const uploadExcel = multer({
+  storage: excelStorage,
+  fileFilter: excelFileFilter,
+  limits: {
+    fileSize: 1024 * 1024,
+  },
+})
 export const multerConfig = { uploadImage, uploadExcel }

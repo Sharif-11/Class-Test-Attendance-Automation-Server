@@ -60,7 +60,7 @@ const validateGetAllCt = [
     .withMessage('Course code must be 7 characters')
     .matches(/^[A-Z]{3}-\d{3}$/)
     .withMessage('Invalid course code format.'),
-  body('semesterId')
+  param('semesterId')
     .trim()
     .isString()
     .withMessage('Semester ID must be a string')

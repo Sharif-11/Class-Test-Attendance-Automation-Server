@@ -199,6 +199,96 @@
           }
         }
       }
+    },
+    "/ct": {
+      "post": {
+        "tags": ["Class Test"],
+        "summary": "Create class test",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/CreateCtRequest" }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CreateCtResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Teacher login validation failed",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CourseBadResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/ct/evaluate-ct/{classTestId}": {
+      "post": {
+        "tags": ["Class Test"],
+        "summary": "Evaluate class test",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "excelFile": {
+                    "type": "string",
+                    "format": "binary"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "classTestId",
+            "in": "path",
+            "description": "ID of the class test",
+            "required": true,
+            "type": "string"
+          }
+        ],
+
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EvaluateCtResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EvaluateCtError"
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
   "components": {
@@ -627,6 +717,120 @@
           }
         },
         "required": ["statusCode", "success", "message", "data"]
+      },
+      "CreateCtRequest": {
+        "type": "object",
+        "properties": {
+          "semesterId": {
+            "type": "string",
+            "example": "20181"
+          },
+          "courseCode": {
+            "type": "string",
+            "example": "CSE-141"
+          },
+          "full_mark": {
+            "type": "number",
+            "example": 20
+          }
+        },
+        "required": ["semesterId", "courseCode", "full_mark"]
+      },
+      "CreateCtResponse": {
+        "type": "object",
+        "properties": {
+          "statusCode": {
+            "type": "number",
+            "example": 200
+          },
+          "success": {
+            "type": "boolean",
+            "example": true
+          },
+          "message": {
+            "type": "string",
+            "example": "Class Test created successfully"
+          },
+          "data": {
+            "type": "object",
+            "example": {
+              "semesterId": "20182",
+              "courseCode": "CSE-141",
+              "classTestId": "0c68b998-8fa8-47f9-bc9f-212bf53d63fa",
+              "full_mark": 20,
+              "evaluated": false,
+              "createdAt": "2024-01-14T13:53:44.483Z",
+              "updatedAt": "2024-01-14T13:53:44.483Z"
+            }
+          }
+        }
+      },
+      "EvaluateCtResponse": {
+        "type": "object",
+        "properties": {
+          "statusCode": {
+            "type": "number",
+            "example": 200
+          },
+          "success": {
+            "type": "boolean",
+            "example": true
+          },
+          "message": {
+            "type": "string",
+            "example": "Mark added successfully"
+          },
+          "data": {
+            "type": "object",
+            "example": {
+              "count": 9
+            }
+          }
+        }
+      },
+      "EvaluateCtError": {
+        "type": "object",
+        "properties": {
+          "statusCode": {
+            "type": "number",
+            "example": 400
+          },
+          "success": {
+            "type": "boolean",
+            "example": false
+          },
+          "message": {
+            "type": "string",
+            "example": "The all students of the semester should be added"
+          },
+          "errorMessages": {
+            "type": "array",
+            "example": [
+              {
+                "path": "",
+                "message": "The all students of the semester should be added"
+              }
+            ]
+          }
+        }
+      },
+
+      "Error401Response": {
+        "type": "object",
+        "properties": {
+          "statusCode": {
+            "type": "number",
+            "example": 401
+          },
+          "success": {
+            "type": "boolean",
+            "example": false
+          },
+          "message": {
+            "type": "string",
+            "example": "Teacher login validation failed"
+          }
+        }
       }
     }
   }

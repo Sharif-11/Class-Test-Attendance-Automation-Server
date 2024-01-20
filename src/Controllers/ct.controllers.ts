@@ -12,7 +12,7 @@ const createCt = catchAsync(async (req: Request, res: Response) => {
   const data = await classTestServices.createCt(
     semesterId,
     courseCode,
-    full_mark,
+    Number(full_mark),
   )
   console.log(data)
   sendSuccessResponse<Class_Test>(res, {
@@ -23,7 +23,7 @@ const createCt = catchAsync(async (req: Request, res: Response) => {
   })
 })
 const getAllCt = catchAsync(async (req: Request, res: Response) => {
-  const { semesterId } = req.body
+  const { semesterId } = req.params
   const { courseCode } = req.params
   const data = await classTestServices.getAllCt(semesterId, courseCode)
   sendSuccessResponse<typeof data>(res, {
@@ -35,7 +35,9 @@ const getAllCt = catchAsync(async (req: Request, res: Response) => {
 })
 const evaluateCt = catchAsync(async (req: Request, res: Response) => {
   const workbook = XLSX.read(req?.file?.buffer, { type: 'buffer' })
+  console.log({ workbook })
   const workSheet = workbook.Sheets[workbook.SheetNames[0]]
+
   const marksData: ExcelMark[] = XLSX.utils.sheet_to_json(workSheet)
   const uniqueStudentIds = new Set()
   const uniqueData = marksData.filter(entry => {
@@ -46,6 +48,7 @@ const evaluateCt = catchAsync(async (req: Request, res: Response) => {
     return false
   })
   const { classTestId } = req.params
+  console.log({ classTestId })
   const data = await classTestServices.evaluateCt(classTestId, uniqueData)
   sendSuccessResponse<typeof data>(res, {
     statusCode: httpStatus.OK,

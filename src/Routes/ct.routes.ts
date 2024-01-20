@@ -31,7 +31,7 @@ ctRoutes.get(
   ctControllers.getAllCtResult,
 )
 ctRoutes.get(
-  '/teacher-ct/:courseCode',
+  '/teacher-ct/:semesterId/:courseCode',
   ctValidators.validateGetAllCt,
   verifyUser('teacher'),
   verifyInstructor,
