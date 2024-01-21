@@ -8,14 +8,14 @@ const courseRoutes = express.Router()
 courseRoutes.post(
   '/',
   courseValidators.validateCreateCourse,
-  verifyUser('teacher'),
-  verifyHead,
+  //verifyUser('teacher'),
+  //verifyHead,
   courseControllers.createCourse,
 )
 courseRoutes.get(
   '/',
-  verifyUser('teacher'),
-  verifyHead,
+  // verifyUser('teacher'),
+  //verifyHead,
   courseControllers.getAllCourses,
 )
 courseRoutes.delete(

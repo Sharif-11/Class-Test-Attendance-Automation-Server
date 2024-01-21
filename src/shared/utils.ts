@@ -33,3 +33,4 @@ export const semesterTitles = {
   'Level-4 Term-1': 7,
   'Level-4 Term-2': 8,
 }
+export const defaultPageSize = 5

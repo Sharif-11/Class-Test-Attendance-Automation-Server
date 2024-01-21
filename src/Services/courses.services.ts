@@ -1,9 +1,16 @@
 import { Course } from '@prisma/client'
 import prisma from '../Shared/prisma'
+import { defaultPageSize } from '../Shared/utils'
 import { userServices } from './user.services'
 
-const createCourse = async (courseData: Course) => {
-  const course = await prisma.course.create({ data: courseData })
+const createCourse = async (
+  courseCode: string,
+  courseTitle: string,
+  credit: number,
+) => {
+  const course = await prisma.course.create({
+    data: { courseCode, courseTitle, credit },
+  })
   return course
 }
 const getCourse = async (courseCode: string) => {
@@ -13,7 +20,18 @@ const getCourse = async (courseCode: string) => {
   }
   return course
 }
-const getAllCourse = async () => await prisma.course.findMany({})
+const getAllCourse = async (
+  page: number = 1,
+  pageSize: number = defaultPageSize,
+) => {
+  const skip = (page - 1) * pageSize
+  const take = pageSize
+  return await prisma.course.findMany({
+    skip,
+    take,
+    orderBy: { createdAt: 'desc' },
+  })
+}
 const updateCourse = async (
   courseCode: string,
   courseData: Partial<Course>,

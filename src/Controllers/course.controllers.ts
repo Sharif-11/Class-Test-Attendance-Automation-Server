@@ -7,7 +7,13 @@ import { sendSuccessResponse } from '../Services/response.services'
 import catchAsync from '../Shared/catchAsync'
 
 const createCourse = catchAsync(async (req: Request, res: Response) => {
-  const data = await courseServices.createCourse(req.body)
+  const { courseCode, courseTitle, credit } = req.body
+  const data = await courseServices.createCourse(
+    courseCode,
+    courseTitle,
+    Number(credit),
+  )
+
   sendSuccessResponse<Course>(res, {
     statusCode: httpStatus.OK,
     message: 'Course created successfully',
@@ -38,7 +44,8 @@ const updateCourse = catchAsync(async (req: Request, res: Response) => {
   })
 })
 const getAllCourses = catchAsync(async (req: Request, res: Response) => {
-  const data = await courseServices.getAllCourse()
+  const { page = 1 } = req.query
+  const data = await courseServices.getAllCourse(Number(page))
   sendSuccessResponse<Course[]>(res, {
     statusCode: httpStatus.OK,
     success: true,
