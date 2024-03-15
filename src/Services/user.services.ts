@@ -248,16 +248,21 @@ const makeHead = async (teacherId: string) => {
   })
   return updatedHead
 }
-const getStudentsOfBatch = async (batch: string) => {
+const getStudentsOfBatch = async (
+  batch: string,
+  page: number = 1,
+  pageSize: number = 10,
+) => {
+  const skip = (page - 1) * pageSize
+  const take = pageSize
   const result = await prisma.student.findMany({
     where: { batch },
+    skip,
+    take,
     select: studentSelect,
+    orderBy: { studentId: 'asc' },
   })
-  if (!result.length) {
-    throw new Error('There is no student in this batch')
-  } else {
-    return result
-  }
+  return result
 }
 export const userServices = {
   createStudent,

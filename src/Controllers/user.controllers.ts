@@ -85,7 +85,11 @@ const makeHead = catchAsync(async (req: Request, res: Response) => {
 })
 const getStudentsOfBatch = catchAsync(async (req: Request, res: Response) => {
   const { batch } = req.params
-  const result = await userServices.getStudentsOfBatch(batch)
+  const { page } = req.query
+  const result = await userServices.getStudentsOfBatch(
+    batch,
+    isNaN(Number(page)) ? 1 : Number(page),
+  )
   sendSuccessResponse<typeof result>(res, {
     statusCode: httpStatus.OK,
     success: true,
