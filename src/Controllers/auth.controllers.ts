@@ -32,4 +32,29 @@ const teacherLogin: RequestHandler = catchAsync(async (req, res) => {
     data: { ...teacher, token },
   })
 })
-export const authControllers = { studentLogin, teacherLogin }
+const studentLogout: RequestHandler = async (req: Request, res: Response) => {
+  // Assuming you are using JWT for authentication and 'token' cookie to store the token
+  res.clearCookie('token')
+  sendSuccessResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: 'Student logged out successfully',
+    data: null,
+  })
+}
+const teacherLogout: RequestHandler = async (req: Request, res: Response) => {
+  // Assuming you are using JWT for authentication and 'token' cookie to store the token
+  res.clearCookie('token')
+  sendSuccessResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: 'Teacher logged out successfully',
+    data: null,
+  })
+}
+export const authControllers = {
+  studentLogin,
+  teacherLogin,
+  studentLogout,
+  teacherLogout,
+}

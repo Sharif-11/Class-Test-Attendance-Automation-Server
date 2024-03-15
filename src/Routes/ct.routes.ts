@@ -38,7 +38,7 @@ ctRoutes.post(
   ctControllers.cancelEvaluation,
 )
 ctRoutes.get(
-  '/results',
+  '/results/:semesterId/:courseCode',
   ctValidators.validateGetAllCtResult,
   verifyUser('student'),
   verifyBatch,

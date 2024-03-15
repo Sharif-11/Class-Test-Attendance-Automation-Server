@@ -21,7 +21,8 @@ const createSemester = catchAsync(async (req: Request, res: Response) => {
   })
 })
 const getAllSemesters = catchAsync(async (req: Request, res: Response) => {
-  const data = await semesterServices.getAllSemesters()
+  const { page } = req.query
+  const data = await semesterServices.getAllSemesters(Number(page))
   sendSuccessResponse<Semester[]>(res, {
     statusCode: httpStatus.OK,
     success: true,

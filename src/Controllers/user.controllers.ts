@@ -22,18 +22,44 @@ const createTeacher = catchAsync(async (req: Request, res: Response) => {
   })
 })
 const createStudent = catchAsync(async (req: Request, res: Response) => {
-  const { password, ...others } = req.body
-  const result = await userServices.createStudent({
-    ...others,
-    password: hashPassword(password),
-    role: 'student',
-  })
+  const {
+    password,
+    studentId,
+    name,
+    email,
+    batch,
+    session,
+    department,
+    profileImage,
+  } = req.body
+
+  const result = await userServices.createStudent(
+    studentId,
+    name,
+    email,
+    batch,
+    session,
+    profileImage,
+    department,
+    hashPassword(password),
+  )
 
   sendSuccessResponse<Omit<Student, 'password'>>(res, {
     statusCode: httpStatus.OK,
     success: true,
     data: result,
     message: 'Student created successfully',
+  })
+})
+const getTeachers = catchAsync(async (req: Request, res: Response) => {
+  const { page = 1 } = req.query
+  const result = await userServices.getTeachers(Number(page))
+
+  sendSuccessResponse<typeof result>(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    data: result,
+    message: 'Teachers retreived successfully',
   })
 })
 const deleteTeacher = catchAsync(async (req: Request, res: Response) => {
@@ -57,10 +83,21 @@ const makeHead = catchAsync(async (req: Request, res: Response) => {
     message: 'Head is assigned successfully',
   })
 })
-
+const getStudentsOfBatch = catchAsync(async (req: Request, res: Response) => {
+  const { batch } = req.params
+  const result = await userServices.getStudentsOfBatch(batch)
+  sendSuccessResponse<typeof result>(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    data: result,
+    message: `Students of batch ${batch} retreived successfully`,
+  })
+})
 export const userControllers = {
   createTeacher,
   createStudent,
   makeHead,
   deleteTeacher,
+  getTeachers,
+  getStudentsOfBatch,
 }

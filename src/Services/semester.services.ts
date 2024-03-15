@@ -1,6 +1,6 @@
 import { Semester } from '@prisma/client'
 import prisma from '../Shared/prisma'
-import { semesterTitles } from '../Shared/utils'
+import { defaultPageSize, semesterTitles } from '../Shared/utils'
 import { courseServices } from './courses.services'
 import { userServices } from './user.services'
 import { createSemesterId } from './utils.services'
@@ -23,7 +23,18 @@ const getSemester = async (semesterId: string) => {
   }
   return result
 }
-const getAllSemesters = async () => await prisma.semester.findMany()
+const getAllSemesters = async (
+  page: number,
+  pageSize: number = defaultPageSize,
+) => {
+  const skip = (page - 1) * pageSize
+  const take = pageSize
+  return await prisma.semester.findMany({
+    skip,
+    take,
+    orderBy: { createdAt: 'desc' },
+  })
+}
 const updateSemester = async (
   semesterId: string,
   semesterData: Partial<Semester>,

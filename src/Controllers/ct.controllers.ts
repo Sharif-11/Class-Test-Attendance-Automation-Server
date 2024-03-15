@@ -79,7 +79,7 @@ const deleteCt = catchAsync(async (req: Request, res: Response) => {
   })
 })
 const getAllCtResult = catchAsync(async (req: Request, res: Response) => {
-  const { semesterId, courseCode } = req.body
+  const { semesterId, courseCode } = req.params
   const { studentId } = req.user as StudentWithoutPassword
   const data = await classTestServices.getAllCtResult(
     semesterId,

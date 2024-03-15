@@ -13,6 +13,11 @@ studentRoutes.post(
   imageUploader,
   userControllers.createStudent,
 )
+studentRoutes.get(
+  '/:batch',
+  studentValidators.validateBatch,
+  userControllers.getStudentsOfBatch,
+)
 studentRoutes.post(
   '/login',
   studentValidators.validateStudentLogin,

@@ -34,14 +34,14 @@ const validateEvaluateCt = [
   validationErrorHandler('Evaluation validation failed'),
 ]
 const validateGetAllCtResult = [
-  body('semesterId')
+  param('semesterId')
     .trim()
     .isString()
     .withMessage('Semester ID must be a string')
     .isLength({ min: 5, max: 5 })
     .withMessage('Semester ID must be 5 characters'),
 
-  body('courseCode')
+  param('courseCode')
     .trim()
     .isString()
     .withMessage('Course code must be a string')

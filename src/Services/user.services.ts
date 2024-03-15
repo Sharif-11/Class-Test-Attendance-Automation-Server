@@ -1,12 +1,31 @@
 import { Student, Teacher } from '@prisma/client'
 import httpStatus from 'http-status'
 import prisma from '../Shared/prisma'
-import { studentSelect, teacherSelect } from '../Shared/utils'
+import { defaultPageSize, studentSelect, teacherSelect } from '../Shared/utils'
 import ApiError from '../errors/ApiError'
 
-const createStudent = async (studentData: Student) => {
+const createStudent = async (
+  studentId: string,
+  name: string,
+  email: string,
+  batch: string,
+  session: string,
+  profileImage: string,
+  department: string,
+  password: string,
+) => {
   const student = await prisma.student.create({
-    data: studentData,
+    data: {
+      studentId,
+      name,
+      email,
+      batch,
+      session,
+      department,
+      profileImage,
+      password,
+      role: 'student',
+    },
     select: studentSelect,
   })
   return student
@@ -82,9 +101,17 @@ const getStudents = async () => {
   })
   return students
 }
-const getTeachers = async () => {
+const getTeachers = async (
+  page: number = 1,
+  pageSize: number = defaultPageSize,
+) => {
+  const skip = (page - 1) * pageSize
+  const take = pageSize
   const teachers = await prisma.teacher.findMany({
     select: teacherSelect,
+    skip,
+    take,
+    orderBy: { createdAt: 'desc' },
   })
   return teachers
 }
@@ -221,6 +248,17 @@ const makeHead = async (teacherId: string) => {
   })
   return updatedHead
 }
+const getStudentsOfBatch = async (batch: string) => {
+  const result = await prisma.student.findMany({
+    where: { batch },
+    select: studentSelect,
+  })
+  if (!result.length) {
+    throw new Error('There is no student in this batch')
+  } else {
+    return result
+  }
+}
 export const userServices = {
   createStudent,
   createTeacher,
@@ -236,4 +274,5 @@ export const userServices = {
   deleteTeacher,
   isHead,
   makeHead,
+  getStudentsOfBatch,
 }

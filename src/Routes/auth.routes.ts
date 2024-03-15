@@ -8,9 +8,11 @@ authRoutes.post(
   studentValidators.validateStudentLogin,
   authControllers.studentLogin,
 )
+authRoutes.post('/student/logout', authControllers.studentLogout)
 authRoutes.post(
   '/teacher/login',
   teacherValidators.validateTeacherLogin,
   authControllers.teacherLogin,
 )
+authRoutes.post('/teacher/logout', authControllers.teacherLogout)
 export default authRoutes

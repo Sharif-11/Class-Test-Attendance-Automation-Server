@@ -5,7 +5,6 @@ import ApiError from '../errors/ApiError'
 import { courseServices } from './courses.services'
 import { semesterServices } from './semester.services'
 import { userServices } from './user.services'
-import { verifyDate } from './utils.services'
 
 const takeAttendance = async (
   semesterId: string,
@@ -13,10 +12,10 @@ const takeAttendance = async (
   date: Date,
   attendances: IAttendance[],
 ) => {
-  const isToday = verifyDate(date)
-  if (!isToday) {
-    throw new ApiError(httpStatus.BAD_REQUEST, 'The given date is incompatible')
-  }
+  // const isToday = verifyDate(date)
+  // if (!isToday) {
+  //   throw new ApiError(httpStatus.BAD_REQUEST, 'The given date is incompatible')
+  // }
   const existingSemester = await semesterServices.getSemester(semesterId)
   await courseServices.getCourse(courseCode)
   const existingSemesterCourses = await prisma.semester_Courses.findFirst({

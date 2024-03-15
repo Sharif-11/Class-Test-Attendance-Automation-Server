@@ -45,6 +45,20 @@ const globalErrorHandler: ErrorRequestHandler = (error, req, res, next) => {
       stack: error?.stack,
     }
     res.status(400).json(errorResponse)
+  } else if (error instanceof Prisma.PrismaClientInitializationError) {
+    const errorResponse: ErrorResponse = {
+      statusCode: httpStatus.INTERNAL_SERVER_ERROR,
+      success: false,
+      message: 'Internal Server Error',
+      errorMessages: [
+        {
+          path: '',
+          message: 'Internal Server Error',
+        },
+      ],
+      stack: error?.stack,
+    }
+    res.status(400).json(errorResponse)
   } else {
     const errorResponse: ErrorResponse = {
       statusCode: httpStatus.BAD_REQUEST,

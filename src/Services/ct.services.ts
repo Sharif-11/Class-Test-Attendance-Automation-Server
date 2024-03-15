@@ -198,7 +198,7 @@ const getAllCtResult = async (
   studentId: string,
 ) => {
   const existingSemester = await semesterServices.getSemester(semesterId)
-  await courseServices.getCourse(courseCode)
+  const existingCourse = await courseServices.getCourse(courseCode)
   const existingStudent = await userServices.getSingleStudent(studentId)
   const existingSemesterCourse = await prisma.semester_Courses.findFirst({
     where: { semesterId, courseCode },
@@ -215,27 +215,56 @@ const getAllCtResult = async (
       'The course are not assigned to this semester',
     )
   }
-  const classTestsWithMarks = await prisma.class_Test.findMany({
+  // const classTestsWithMarks = await prisma.class_Test.findMany({
+  //   where: {
+  //     AND: [
+  //       { semesterId, courseCode },
+  //       { Mark: { some: { studentId: studentId } } },
+  //     ],
+  //   },
+  //   include: {
+  //     Mark: {
+  //       where: {
+  //         studentId: studentId,
+  //       },
+  //     },
+  //     course: { select: { courseTitle: true, credit: true } },
+  //     semester: { select: { semesterTitle: true } },
+  //   },
+  //   orderBy: {
+  //     createdAt: 'asc',
+  //   },
+  // })
+  // return classTestsWithMarks
+  const marks = await prisma.mark.findMany({
     where: {
-      AND: [
-        { semesterId, courseCode },
-        { Mark: { some: { studentId: studentId } } },
-      ],
+      studentId: studentId,
+      semesterId: semesterId,
+      courseCode: courseCode,
     },
     include: {
-      Mark: {
-        where: {
-          studentId: studentId,
-        },
-      },
-      course: { select: { courseTitle: true, credit: true } },
-      semester: { select: { semesterTitle: true } },
+      classTest: true,
     },
     orderBy: {
-      createdAt: 'asc',
+      classTest: {
+        createdAt: 'asc',
+      },
     },
   })
-  return classTestsWithMarks
+  let totalMarks = 0,
+    minMark = Infinity
+  for (const e of marks) {
+    totalMarks += e.marks
+    minMark = Math.min(e.marks, minMark)
+  }
+  if (existingCourse.credit + 1 === marks.length) {
+    return {
+      results: marks,
+      total: totalMarks - minMark,
+    }
+  } else {
+    return { results: marks, total: totalMarks }
+  }
 }
 const calculateFinalResult = async (semesterId: string, courseCode: string) => {
   await semesterServices.getSemester(semesterId)

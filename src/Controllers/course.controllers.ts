@@ -54,6 +54,7 @@ const getAllCourses = catchAsync(async (req: Request, res: Response) => {
   })
 })
 const getCoursesOfTeacher = catchAsync(async (req: Request, res: Response) => {
+  console.log(req.user)
   const { teacherId } = req.user as TeacherWithoutPassword
   const data = await courseServices.getCoursesOfTeacher(teacherId)
   sendSuccessResponse<typeof data>(res, {

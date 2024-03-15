@@ -1,4 +1,4 @@
-import { body } from 'express-validator'
+import { body, param } from 'express-validator'
 import validationErrorHandler from '../middlewares/validationHandler'
 
 const validateStudent = [
@@ -79,4 +79,19 @@ const validateStudentLogin = [
 
   validationErrorHandler('Student login validation failed'),
 ]
-export const studentValidators = { validateStudent, validateStudentLogin }
+const validateBatch = [
+  param('batch')
+    .trim()
+    .isString()
+    .withMessage('Batch must be a string')
+    .isLength({ min: 4, max: 4 })
+    .withMessage('Batch must be 4 digits')
+    .isNumeric()
+    .withMessage('Batch must be numeric'),
+  validationErrorHandler('Batch validation failed'),
+]
+export const studentValidators = {
+  validateStudent,
+  validateStudentLogin,
+  validateBatch,
+}

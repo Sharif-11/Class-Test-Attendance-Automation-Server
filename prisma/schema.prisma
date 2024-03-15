@@ -10,10 +10,7 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-enum Role {
-  student
-  teacher
-}
+
 
 model Student {
   studentId          String               @id 
@@ -22,7 +19,7 @@ model Student {
   batch              String
   session            String
   department         String
-  role               Role
+  role               String
   password           String
   profileImage       String
   createdAt          DateTime             @default(now())
@@ -40,7 +37,7 @@ model Teacher {
   department       String
   designation      String
   specialization   String?
-  role             Role
+  role             String
   password         String
   profileImage     String
   deptHead         Boolean            @default(false)

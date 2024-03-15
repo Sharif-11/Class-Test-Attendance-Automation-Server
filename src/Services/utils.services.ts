@@ -1,5 +1,6 @@
 import bcrypt from 'bcrypt'
 import jwt from 'jsonwebtoken'
+import prisma from '../Shared/prisma'
 import { semesterTitles } from '../Shared/utils'
 import config from '../config'
 export const createSemesterId = (
@@ -40,4 +41,33 @@ export const verifyDate = (date: Date) => {
     today.getMonth() === date.getMonth() &&
     today.getFullYear() === date.getFullYear()
   )
+}
+
+export const nullifyTables = async () => {
+  // Delete all rows from Student_Attendance model
+  await prisma.student_Attendance.deleteMany()
+
+  // Delete all rows from Mark model
+  await prisma.mark.deleteMany()
+
+  // Delete all rows from Class_Test model
+  await prisma.class_Test.deleteMany()
+
+  // Delete all rows from Attendance model
+  await prisma.attendance.deleteMany()
+
+  // Delete all rows from Semester_Courses model
+  await prisma.semester_Courses.deleteMany()
+
+  // Delete all rows from Student model
+  await prisma.student.deleteMany()
+
+  // Delete all rows from Teacher model
+  await prisma.teacher.deleteMany()
+
+  // Delete all rows from Course model
+  await prisma.course.deleteMany()
+
+  // Delete all rows from Semester model
+  await prisma.semester.deleteMany()
 }
