@@ -12,7 +12,7 @@ attendanceRoutes.post(
   // verifyInstructor,
   attendanceController.takeAttendance,
 )
-attendanceRoutes.get('/', attendanceController.getAttendance)
+attendanceRoutes.get('/:courseCode', attendanceController.getAttendance)
 attendanceRoutes.get(
   '/calculate-attendance',
   attendanceValidators.validateCalculateStudentAttendance,

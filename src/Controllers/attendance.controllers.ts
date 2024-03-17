@@ -23,12 +23,12 @@ const takeAttendance = catchAsync(async (req: Request, res: Response) => {
   })
 })
 const getAttendance = catchAsync(async (req: Request, res: Response) => {
-  const { courseCode, semesterId, date } = req.body
-  const { pageNo, pageSize } = req.query
+  const { courseCode } = req.params
+  const { pageNo, pageSize, semesterId, date } = req.query
   const data = await attendanceServices.getAttendance(
-    semesterId,
+    String(semesterId),
     courseCode,
-    new Date(date),
+    new Date(String(date)),
     isNaN(Number(pageNo)) ? 1 : Number(pageNo),
     isNaN(Number(pageSize)) ? 10 : Number(pageSize),
   )
