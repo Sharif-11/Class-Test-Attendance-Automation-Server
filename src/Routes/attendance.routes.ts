@@ -7,11 +7,12 @@ import verifyUser from '../middlewares/verifyUser'
 const attendanceRoutes = express.Router()
 attendanceRoutes.post(
   '/',
-  attendanceValidators.validateTakeAttendance,
-  verifyUser('teacher'),
-  verifyInstructor,
+  // attendanceValidators.validateTakeAttendance,
+  // verifyUser('teacher'),
+  // verifyInstructor,
   attendanceController.takeAttendance,
 )
+attendanceRoutes.get('/', attendanceController.getAttendance)
 attendanceRoutes.get(
   '/calculate-attendance',
   attendanceValidators.validateCalculateStudentAttendance,

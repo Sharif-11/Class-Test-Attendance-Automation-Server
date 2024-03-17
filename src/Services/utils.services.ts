@@ -42,7 +42,20 @@ export const verifyDate = (date: Date) => {
     today.getFullYear() === date.getFullYear()
   )
 }
-
+export const timestampToDate = (timestamp: number): string => {
+  const date = new Date(timestamp)
+  const year = date.getFullYear()
+  const month = ('0' + (date.getMonth() + 1)).slice(-2) // Adding leading zero if necessary
+  const day = ('0' + date.getDate()).slice(-2) // Adding leading zero if necessary
+  return `${year}-${month}-${day}`
+}
+export const extractBatch = (semesterId: string): string => {
+  if (semesterId.length < 4) {
+    return semesterId
+  } else {
+    return semesterId.substring(0, 4)
+  }
+}
 export const nullifyTables = async () => {
   // Delete all rows from Student_Attendance model
   await prisma.student_Attendance.deleteMany()

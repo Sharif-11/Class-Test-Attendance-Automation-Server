@@ -128,7 +128,7 @@ model Attendance {
   attendanceId       String               @unique @default(uuid())
   semesterId         String
   courseCode         String
-  date               DateTime             @default(now())
+  date               String
   semester           Semester             @relation(fields: [semesterId], references: [semesterId])
   course             Course               @relation(fields: [courseCode], references: [courseCode])
   createdAt          DateTime             @default(now())

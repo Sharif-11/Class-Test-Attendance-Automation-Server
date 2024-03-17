@@ -3,10 +3,12 @@ import httpStatus from 'http-status'
 import { StudentWithoutPassword } from '../Interfaces/user.interface'
 import { attendanceServices } from '../Services/attendance.services'
 import { sendSuccessResponse } from '../Services/response.services'
+import { timestampToDate } from '../Services/utils.services'
 import catchAsync from '../Shared/catchAsync'
 
 const takeAttendance = catchAsync(async (req: Request, res: Response) => {
   const { courseCode, semesterId, date, attendances } = req.body
+
   const data = await attendanceServices.takeAttendance(
     semesterId,
     courseCode,
@@ -17,6 +19,24 @@ const takeAttendance = catchAsync(async (req: Request, res: Response) => {
     statusCode: httpStatus.OK,
     success: true,
     message: 'Attendance is taken successfully',
+    data,
+  })
+})
+const getAttendance = catchAsync(async (req: Request, res: Response) => {
+  const { courseCode, semesterId, date } = req.body
+  const { pageNo, pageSize } = req.query
+  const data = await attendanceServices.getAttendance(
+    semesterId,
+    courseCode,
+    new Date(date),
+    isNaN(Number(pageNo)) ? 1 : Number(pageNo),
+    isNaN(Number(pageSize)) ? 10 : Number(pageSize),
+  )
+  const today = new Date(date).getTime()
+  sendSuccessResponse<typeof data>(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: `Attendance of ${timestampToDate(today)} retreived successfully`,
     data,
   })
 })
@@ -57,4 +77,5 @@ export const attendanceController = {
   takeAttendance,
   calculateStudentAttendance,
   tabulateStudentAttendance,
+  getAttendance,
 }
