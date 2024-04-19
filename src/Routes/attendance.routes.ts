@@ -14,8 +14,8 @@ attendanceRoutes.post(
 )
 attendanceRoutes.get('/:courseCode', attendanceController.getAttendance)
 attendanceRoutes.get(
-  '/calculate-attendance',
-  attendanceValidators.validateCalculateStudentAttendance,
+  '/calculate-attendance/:semesterId/:courseCode',
+  // attendanceValidators.validateCalculateStudentAttendance,
   verifyUser('student'),
   verifyBatch,
   attendanceController.calculateStudentAttendance,

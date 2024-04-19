@@ -8,13 +8,14 @@ import catchAsync from '../Shared/catchAsync'
 
 const takeAttendance = catchAsync(async (req: Request, res: Response) => {
   const { courseCode, semesterId, date, attendances } = req.body
-
+  console.log(req.body)
   const data = await attendanceServices.takeAttendance(
     semesterId,
     courseCode,
     new Date(date),
     attendances,
   )
+  console.log(data)
   sendSuccessResponse<typeof data>(res, {
     statusCode: httpStatus.OK,
     success: true,
@@ -32,17 +33,20 @@ const getAttendance = catchAsync(async (req: Request, res: Response) => {
     isNaN(Number(pageNo)) ? 1 : Number(pageNo),
     isNaN(Number(pageSize)) ? 10 : Number(pageSize),
   )
-  const today = new Date(date).getTime()
+  const today = new Date(date as string)
   sendSuccessResponse<typeof data>(res, {
     statusCode: httpStatus.OK,
     success: true,
-    message: `Attendance of ${timestampToDate(today)} retreived successfully`,
+    message: `Attendance of ${timestampToDate(
+      today.getTime(),
+    )} retreived successfully`,
     data,
   })
 })
 const calculateStudentAttendance = catchAsync(
   async (req: Request, res: Response) => {
-    const { semesterId, courseCode } = req.body
+    const { semesterId, courseCode } = req.params
+    console.log({ semesterId, courseCode })
     const { studentId } = req.user as StudentWithoutPassword
     const data = await attendanceServices.calclateStudentAttendance(
       semesterId,

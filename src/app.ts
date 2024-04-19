@@ -7,8 +7,25 @@ import { nullifyTables } from './Services/utils.services'
 import globalErrorHandler from './middlewares/globalErrorHandler'
 import swaggerDocument from './swagger.json'
 const app: Application = express()
-app.use(cors())
 app.use(express.json())
+const allowedOrigins = [
+  'http://localhost:5174',
+  'http://18.138.71.5:5174',
+  'null',
+]
+const corsOptions = {
+  origin: function (origin: string, callback) {
+    if (allowedOrigins.indexOf(origin) !== -1 || !origin) {
+      callback(null, true)
+    } else {
+      callback(new Error('Not allowed by CORS'))
+    }
+  },
+  credentials: true, // Allow credentials
+}
+
+// Use CORS middleware
+app.use(cors(corsOptions))
 app.use(express.urlencoded({ extended: true }))
 app.use(cookieParser())
 app.use(express.static('public'))

@@ -106,7 +106,7 @@ const getAttendance = async (
   courseCode: string,
   date: Date,
   pageNo: number = 1,
-  pageSize: number = 10,
+  pageSize: number = 9,
 ) => {
   const skip = (pageNo - 1) * pageSize
   const existingSemester = await semesterServices.getSemester(semesterId)
@@ -164,6 +164,7 @@ const calclateStudentAttendance = async (
   courseCode: string,
   studentId: string,
 ) => {
+  console.log({ semesterId, courseCode })
   await semesterServices.getSemester(semesterId)
   await courseServices.getCourse(courseCode)
   await userServices.getSingleStudent(studentId)
