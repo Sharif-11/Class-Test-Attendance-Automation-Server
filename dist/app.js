@@ -22,20 +22,10 @@ const globalErrorHandler_1 = __importDefault(require("./middlewares/globalErrorH
 const swagger_json_1 = __importDefault(require("./swagger.json"));
 const app = (0, express_1.default)();
 app.use(express_1.default.json());
-const allowedOrigins = [
-    'http://localhost:5174',
-    'http://18.138.71.5:5174',
-    'null',
-];
 const corsOptions = {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     origin: function (origin, callback) {
-        if (allowedOrigins.indexOf(origin || '') !== -1 || !origin) {
-            callback(null, true);
-        }
-        else {
-            callback(new Error('Not allowed by CORS'));
-        }
+        callback(null, true);
     },
     credentials: true, // Allow credentials
 };

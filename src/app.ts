@@ -11,7 +11,7 @@ app.use(express.json())
 const corsOptions = {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   origin: function (origin: string | undefined, callback: any) {
-    callback(new Error('Not allowed by CORS'))
+    callback(null, true)
   },
   credentials: true, // Allow credentials
 }
